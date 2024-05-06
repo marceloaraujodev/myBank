@@ -1,0 +1,4 @@
+1 connect buttons
+2 create states
+3 create functions
+4 create routes
