@@ -6,26 +6,16 @@ import Transfers from '../components/Transfers';
 import Loans from '../components/Loans';
 import CloseAccount from '../components/CloseAccount';
 import LogoutTimer from '../components/LogoutTimer';
-import './App.css'
+import { AuthProvider } from '../AuthContext';
+import './App.css';
+import AppContent from '../components/AppContent';
 
 function App() {
-
-
   return (
-    <>
-    <Nav />
-
-    <main className="app">
-      <Balance />
-      <Movements />
-      <Summary />
-      <Transfers />
-      <Loans />
-      <CloseAccount />
-      <LogoutTimer />
-    </main>
-    </>
-  )
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

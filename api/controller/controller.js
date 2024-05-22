@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt';
 
 export async function login (req, res) {
   try {
-    const {user, password} = req.body;
-    console.log(user)
-  
-    const logginUser = await User.findOne({user});
+    const {userName, password} = req.body;
+    console.log(userName, password)
+
+    const logginUser = await User.findOne({user: userName});
     
     console.log(logginUser)
     if(password !== logginUser.password){
@@ -16,12 +16,14 @@ export async function login (req, res) {
       })
     }
     
-    res.json('ok');
+    res.status(200).json(logginUser);
   } catch (error) {
-    
+    console.log(error)
   }
 
 }
+
+
 
 export async function signup (req, res) {
   const {user, password} = req.body;

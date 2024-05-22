@@ -3,14 +3,17 @@ import morgan from 'morgan';
 import user from './routes/user.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-// import cors from 'cors';
+import cors from 'cors';
 dotenv.config();
 
 
 const app = express();
 
 app.use(morgan('dev')); // logger
-// app.use(cors(corsOptions));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust this based on your needs
+}));
 app.use(express.json());
 // app.use(cookieParser()); // cookie parser
 
