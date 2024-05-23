@@ -1,15 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
-import Nav from '../components/Nav';
-import Balance from '../components/Balance';
-import Movements from '../components/Movements';
-import Summary from '../components/Summary';
-import Transfers from '../components/Transfers';
-import Loans from '../components/Loans';
-import CloseAccount from '../components/CloseAccount';
-import LogoutTimer from '../components/LogoutTimer';
+import Nav from './Nav';
+import Balance from './Balance';
+import Movements from './Movements';
+import Summary from './Summary';
+import Transfers from './Transfers';
+import Loans from './Loans';
+import CloseAccount from './CloseAccount';
+import LogoutTimer from './LogoutTimer';
 import AuthContext from '../AuthContext';
 
-export default function AppContent() {
+
+export default function HomePage() {
   const { isAuthorized } = useContext(AuthContext);
   const [fadeIn, setFadeIn] = useState(false);
   
@@ -37,7 +38,7 @@ export default function AppContent() {
           <LogoutTimer />
         </main>
       )}
-      
+
     </>
   );
 }

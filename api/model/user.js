@@ -1,4 +1,5 @@
-import mongoose, { mongo } from "mongoose";
+import { Timestamp } from "firebase-admin/firestore";
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   user: {
@@ -8,7 +9,14 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
   }
+},{
+  timestamps: true
 });
 
 const User = mongoose.model('User', UserSchema);

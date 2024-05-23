@@ -4,10 +4,12 @@ import user from './routes/user.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 dotenv.config();
 
 
 const app = express();
+
 
 app.use(morgan('dev')); // logger
 app.use(cors({
@@ -19,8 +21,6 @@ app.use(express.json());
 
 //importing routes
 app.use('/api/v1', user);
-
-
 
 
 const connectDB = async () => {

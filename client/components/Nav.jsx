@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import AuthContext from '../AuthContext';
-import { set } from 'firebase/database';
+import { useNavigate } from 'react-router-dom';
 
 export default function Nav() {
   const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isAuthorized, setIsAuthorized } = useContext(AuthContext);
-  const [customerName, setCustomerName] = useState(null);
-  const [signup, setSignup] = useState(false);
- 
-  // add register route if email then /register and create a register function maybe create the sign in page after all
+  const { 
+    isAuthorized, 
+    setIsAuthorized, 
+    customerName,
+    setCustomerName 
+  } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   async function login() {
     // request the backend to see if credentials are true
@@ -32,30 +34,22 @@ export default function Nav() {
     setCustomerName(null);
   }
 
+useEffect(()=> {
+
+}, [customerName])
 
   return (
   <>
     <nav>
     {!isAuthorized && (
     <>
-      <p className="welcome">Login or <a onClick={() => {
-        setSignup(true);
-      }}>signup</a></p>
+      <p className="welcome"><a onClick={() => {
+          navigate('/')
+        }}>Login</a> or <a onClick={() => {
+        navigate('/register')
+      }}>Register</a></p>
       <img src="logo.png" alt="Logo" className="logo" />
       <form className="login">
-
-      {signup && (
-        <input
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          value={email}
-          type="text"
-          placeholder="email"
-          className="login__input login__input--user"
-        />
-
-      )}
 
         <input
           onChange={(e) => {
@@ -82,7 +76,6 @@ export default function Nav() {
           login()
           setUserName('');
           setPassword('');
-          setSignup(false);
         }} className="login__btn">&rarr;</button>
       </form>
     </>
@@ -90,7 +83,7 @@ export default function Nav() {
 
     {isAuthorized && (
       <>
-      <p className="welcome">Welcome {customerName}</p>
+      <p className="welcome">Welcome {customerName?.charAt(0).toUpperCase() + customerName?.slice(1)}</p>
       <img src="logo.png" alt="Logo" className="logo" />
       <button onClick={(e) => {
           e.preventDefault();

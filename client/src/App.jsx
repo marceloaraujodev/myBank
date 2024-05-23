@@ -1,19 +1,20 @@
-import Nav from '../components/Nav';
-import Balance from '../components/Balance';
-import Movements from '../components/Movements';
-import Summary from '../components/Summary';
-import Transfers from '../components/Transfers';
-import Loans from '../components/Loans';
-import CloseAccount from '../components/CloseAccount';
-import LogoutTimer from '../components/LogoutTimer';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '../AuthContext';
+import Nav from '../components/Nav';
 import './App.css';
-import AppContent from '../components/AppContent';
+import Register from '../components/Register';
+import HomePage from '../components/HomePage';
+
 
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<HomePage />} />
+          <Route exact path='/register' element={<Register />} />
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }
