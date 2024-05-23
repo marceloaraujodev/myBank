@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '../AuthContext';
-import Nav from '../components/Nav';
 import './App.css';
 import Register from '../components/Register';
 import HomePage from '../components/HomePage';
 
 
 function App() {
+  
   return (
     <AuthProvider>
       <Router>

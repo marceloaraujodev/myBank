@@ -25,9 +25,7 @@ export default function Register() {
     }
     console.log(res.data, res)
   }
-
-
-  
+ 
   return (
     <>
       <Nav />

@@ -1,6 +1,8 @@
 import User from '../model/user.js';
 import bcrypt, { hash } from 'bcrypt';
 
+
+// Need to adjust login to hashed password
 export async function login (req, res) {
   try {
     const {userName, password} = req.body;
