@@ -9,16 +9,16 @@ export const UserProvider = ({children}) => {
   const [balance, setBalance] = useState(10000);
 
 
-  // useEffect(() => {
-  //   async function checkAuthentication(){
-  //     const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
-  //       withCredentials: true // Ensure cookies are sent with the request
-  //     });
-  
+  useEffect(() => {
+    async function checkAuthentication(){
+      const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
+        withCredentials: true // Ensure cookies are sent with the request
+      });
+      console.log(res.data)
 
-  //   }
-  //   checkAuthentication();
-  // }, [])
+    }
+    checkAuthentication();
+  }, [])
 
   // users login
   async function login(userEmail, password) {

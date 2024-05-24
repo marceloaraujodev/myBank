@@ -44,7 +44,10 @@ export async function login (req, res) {
 }
 
 export async function logout(req, res){
-  res.clearCookie('token')
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: false
+  })
   res.status(200).json({success: true, message: 'Logged out successfully'});
 }
 
@@ -77,15 +80,16 @@ export async function register (req, res) {
 }
 
 export async function checkAuth(req, res){
-  const token = req.cookies.token;
-  // console.log(token)
+  // set the token to be req.cookies so after logout it wont exists, now fix the errors
+  const token = req.cookies;
+  console.log(token)
   if(!token){
     return res.status(401).json({ success: false, isAuthenticated: false});
   }
 
   try {
-    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // res.status(200).json({success: true, isAuthenticated: true, userId: decoded.id})
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({success: true, isAuthenticated: true, userId: decoded.id})
   } catch (error) {
    return res.status(401).json({ success: false, isAuthenticated: false });
   }
