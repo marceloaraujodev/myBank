@@ -7,8 +7,18 @@ export const UserProvider = ({children}) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [customerName, setCustomerName] = useState(null);
   const [balance, setBalance] = useState(10000);
-  const [token, setToken] = useState(null);
 
+
+  // useEffect(() => {
+  //   async function checkAuthentication(){
+  //     const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
+  //       withCredentials: true // Ensure cookies are sent with the request
+  //     });
+  
+
+  //   }
+  //   checkAuthentication();
+  // }, [])
 
   // users login
   async function login(userEmail, password) {
@@ -16,7 +26,8 @@ export const UserProvider = ({children}) => {
       // request the backend to see if credentials are true
       // console.log(userEmail, password)
       const res = await axios.post('http://localhost:4000/api/v1/login', 
-        { userEmail, password }
+        { userEmail, password },
+        { withCredentials: true }
       );
       console.log(res.data);
       if(res.data){
@@ -31,8 +42,12 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
-    setIsAuthorized(false);
+    const res = await axios.post('http://localhost:4000/api/v1/logout', 
+    { withCredentials: true }
+  );
+    console.log('this is res logout', res)
     setCustomerName(null);
+    setIsAuthorized(false);
   }
 
 

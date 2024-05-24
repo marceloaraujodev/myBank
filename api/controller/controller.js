@@ -43,6 +43,10 @@ export async function login (req, res) {
 
 }
 
+export async function logout(req, res){
+  res.clearCookie('token')
+  res.status(200).json({success: true, message: 'Logged out successfully'});
+}
 
 export async function register (req, res) {
   try {
@@ -70,4 +74,20 @@ export async function register (req, res) {
     res.status(401).json({success: false, message: error.message})
   }
   
+}
+
+export async function checkAuth(req, res){
+  const token = req.cookies.token;
+  // console.log(token)
+  if(!token){
+    return res.status(401).json({ success: false, isAuthenticated: false});
+  }
+
+  try {
+    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // res.status(200).json({success: true, isAuthenticated: true, userId: decoded.id})
+  } catch (error) {
+   return res.status(401).json({ success: false, isAuthenticated: false });
+  }
+
 }
