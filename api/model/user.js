@@ -1,5 +1,16 @@
-import { Timestamp } from "firebase-admin/firestore";
 import mongoose from "mongoose";
+
+const TransactionSchema = new mongoose.Schema({
+  day: {
+    type: Date,
+    default: Date.now,
+  },
+  type: {
+    type: String,
+    enum: ['deposit', 'withdraw'],
+    required: true,
+  },
+});
 
 const UserSchema = new mongoose.Schema({
   user: {
@@ -14,7 +25,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  balance: {
+    type: Number,
+    default: 0
+  }, 
+  transactions: [TransactionSchema],
 },{
   timestamps: true
 });

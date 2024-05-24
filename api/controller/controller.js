@@ -8,17 +8,21 @@ export async function login (req, res) {
     const {userName, password} = req.body;
     console.log(userName, password)
 
-    const logginUser = await User.findOne({user: userName});
+    const user = await User.findOne({user: userName});
+
+    const response = await bcrypt.compare(password, user.password )
+    console.log(res)
     
-    console.log(logginUser)
-    if(password !== logginUser.password){
-      res.status(401).json({
-        success: 'fail',
-        message: 'Username or Password does not match!'
+    console.log(user)
+    if(!response){
+      res.status(403).json({
+        success: false,
+        message: 'User name or password not correct. Please try again.'
       })
     }
+
     
-    res.status(200).json(logginUser);
+    res.status(200).json(user);
   } catch (error) {
     console.log(error)
   }

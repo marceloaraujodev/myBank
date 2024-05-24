@@ -17,15 +17,21 @@ export default function Nav() {
   const navigate = useNavigate();
 
   async function login() {
-    // request the backend to see if credentials are true
-    // console.log(userName, password)
-    const res = await axios.post('http://localhost:4000/api/v1/login', {
-      userName, password
-    });
-    console.log(res.data);
-    if(res.data.password === password){
-      setIsAuthorized(true);
-      setCustomerName(res.data.user)
+    try {
+      // request the backend to see if credentials are true
+      // console.log(userName, password)
+      const res = await axios.post('http://localhost:4000/api/v1/login', {
+        userName, password
+      });
+      // console.log(res.data);
+      if(res.data){
+        setIsAuthorized(true);
+        setCustomerName(res.data.user)
+      }
+      
+    } catch (error) {
+      console.log(error.response.data.message)
+      alert(error.response.data.message)
     }
   }
 
