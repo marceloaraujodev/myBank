@@ -5,11 +5,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import cookieSession from 'cookie-session';
 dotenv.config();
 
 
 const app = express();
 
+// app.use(cookieSession({
+//   name: 'session',
+//   keys:
+// }))
 
 app.use(morgan('dev')); // logger
 app.use(cors({
@@ -18,6 +23,7 @@ app.use(cors({
 }));
 app.use(express.json());
 // app.use(cookieParser()); // cookie parser
+
 
 //importing routes
 app.use('/api/v1', user);

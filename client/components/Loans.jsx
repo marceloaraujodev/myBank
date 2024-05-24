@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from '../UserContext';
 
 export default function Loans() {
   const [amount, setAmount] = useState('');
+  const {
+    setBalance,
+    balance
+  } = useContext(UserContext)
 
   function requestLoan(){
-    console.log(amount)
+    console.log(typeof amount)
+    setAmount(amount)
+    setBalance(Number(balance) + Number(amount))
   }
 
   return (
