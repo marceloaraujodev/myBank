@@ -10,15 +10,21 @@ export const UserProvider = ({children}) => {
 
 
   useEffect(() => {
-    async function checkAuthentication(){
-      const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
-        withCredentials: true // Ensure cookies are sent with the request
-      });
-      console.log(res.data)
-
+    async function checkAuthentication() {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          // You may need to verify the token on the server side for additional security
+          setIsAuthorized(true);
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error.message);
+      }
     }
+  
     checkAuthentication();
-  }, [])
+  }, []);
+  
 
   // users login
   async function login(userEmail, password) {
@@ -33,6 +39,7 @@ export const UserProvider = ({children}) => {
       if(res.data){
         setIsAuthorized(true);
         setCustomerName(res.data.user.user)
+        localStorage.setItem('token', res.data.token);
       } 
     } catch (error) {
       console.log(error.response.data.message)
@@ -42,12 +49,14 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
+    localStorage.removeItem('token');
     const res = await axios.post('http://localhost:4000/api/v1/logout', 
     { withCredentials: true }
   );
     console.log('this is res logout', res)
     setCustomerName(null);
     setIsAuthorized(false);
+
   }
 
 

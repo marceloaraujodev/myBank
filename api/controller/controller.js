@@ -9,8 +9,6 @@ export async function login (req, res) {
     const {userEmail, password} = req.body;
     const user = await User.findOne({email: userEmail}).select('+password');
 
-    console.log(req.headers)
-
     if(!user){
       return res.status(401).json({success: false, message: 'Invalid Credentials'})
     }
@@ -19,7 +17,7 @@ export async function login (req, res) {
     const isAuthorized = await bcrypt.compare(password, user.password )
 
     if(!isAuthorized){
-      console.log('do not give token')
+      // console.log('do not give token')
      return res.status(401).json({
         success: false,
         message: 'Invalid Credentials'
@@ -32,7 +30,15 @@ export async function login (req, res) {
         expiresIn: process.env.JWT_EXPIRES
       })
       // Turn httpOnly to true for production
-      res.cookie('token', token, {httpOnly: false})
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 1);
+      res.cookie('token', token, {
+        expires: expirationDate,
+        httpOnly: false,
+        secure: false,
+        sameSite: 'strict',
+        path: '/' 
+      })
       res.status(200).json({user, token});
     }
 
@@ -43,12 +49,15 @@ export async function login (req, res) {
 
 }
 
-export async function logout(req, res){
+export async function logout(req, res) {
   res.cookie('token', null, {
-    expires: new Date(Date.now()),
-    httpOnly: false
+    expires: new Date(0), // Set expiration date to immediately expire
+    httpOnly: false,
+    secure: false,
+    sameSite: 'strict',
+    path: '/' 
   })
-  res.status(200).json({success: true, message: 'Logged out successfully'});
+  res.status(200).json({ success: true, message: 'Logged out successfully' });
 }
 
 export async function register (req, res) {
@@ -68,8 +77,8 @@ export async function register (req, res) {
       expiresIn: process.env.JWT_EXPIRES
     })
 
-    console.log(user)
-    console.log('token', token)
+    // console.log(user)
+    // console.log('token', token)
     res.status(200).json({newUser, token})
     
   } catch (error) {
@@ -80,18 +89,24 @@ export async function register (req, res) {
 }
 
 export async function checkAuth(req, res){
-  // set the token to be req.cookies so after logout it wont exists, now fix the errors
-  const token = req.cookies;
-  console.log(token)
-  if(!token){
-    return res.status(401).json({ success: false, isAuthenticated: false});
-  }
-
+  // console.log('req.cookie:', req.cookies)
   try {
+    // Retrieve the token from the request cookies
+    const token = req.cookies.token;
+    
+    // If the token is missing or invalid, return an unauthorized response
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).json({success: true, isAuthenticated: true, userId: decoded.id})
+    
+    // If the token is valid, the user is authenticated
+    res.status(200).json({ success: true, isAuthenticated: true, userId: decoded.id });
   } catch (error) {
-   return res.status(401).json({ success: false, isAuthenticated: false });
+    // If token verification fails, return an unauthorized response
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 
 }
