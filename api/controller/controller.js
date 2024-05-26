@@ -8,6 +8,7 @@ export async function login (req, res) {
   try {
     const {userEmail, password} = req.body;
     const user = await User.findOne({email: userEmail}).select('+password');
+    // console.log(user)
 
     if(!user){
       return res.status(401).json({success: false, message: 'Invalid Credentials'})
@@ -101,6 +102,7 @@ export async function checkAuth(req, res){
 
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded)
     
     // If the token is valid, the user is authenticated
     res.status(200).json({ success: true, isAuthenticated: true, userId: decoded.id });
@@ -109,4 +111,13 @@ export async function checkAuth(req, res){
     return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 
+}
+
+// gets loan request and adds to db and balance
+export async function loans(req, res){
+  const {id, loanAmount} = req.body;
+  //$inc increments the amount passed to the balance
+  const user = await User.findByIdAndUpdate(id, {$inc: { balance: Number(loanAmount)}}, {new: true});
+
+  console.log(user)
 }

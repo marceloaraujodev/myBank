@@ -7,14 +7,16 @@ export default function Balance() {
     balance
   } = useContext(UserContext);
 
+  const balanceInDollars = balance / 100;
   // usd styled
   const formater = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   });
 
+
   // formats the balance value to usd style
-  const formattedBalance = formater.format(balance);
+  const formattedBalance = formater.format(balanceInDollars);
 
   // Date format
   const date = new Date();

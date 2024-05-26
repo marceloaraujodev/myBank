@@ -6,25 +6,11 @@ const UserContext = createContext();
 export const UserProvider = ({children}) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [customerName, setCustomerName] = useState(null);
-  const [balance, setBalance] = useState(10000);
+  const [customerId, setCustomerId] = useState(null);
+  const [balance, setBalance] = useState();
 
-
-  useEffect(() => {
-    async function checkAuthentication() {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          // You may need to verify the token on the server side for additional security
-          setIsAuthorized(true);
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error.message);
-      }
-    }
-  
-    checkAuthentication();
-  }, []);
-  
+  // useEffect(() => {}, [])
+ 
 
   // users login
   async function login(userEmail, password) {
@@ -35,10 +21,12 @@ export const UserProvider = ({children}) => {
         { userEmail, password },
         { withCredentials: true }
       );
-      console.log(res.data);
+      // console.log(res.data);
       if(res.data){
         setIsAuthorized(true);
-        setCustomerName(res.data.user.user)
+        setCustomerName(res.data.user.user);
+        setBalance(res.data.user.balance)
+        setCustomerId(res.data.user._id)
         localStorage.setItem('token', res.data.token);
       } 
     } catch (error) {
@@ -70,7 +58,8 @@ export const UserProvider = ({children}) => {
       login,
       logout,
       balance, 
-      setBalance
+      setBalance,
+      customerId,
     }}>
       {children}
     </UserContext.Provider>
