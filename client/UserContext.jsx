@@ -9,8 +9,11 @@ export const UserProvider = ({children}) => {
   const [customerId, setCustomerId] = useState(null);
   const [balance, setBalance] = useState();
 
+
+  // missin : transfer money to,  close account  and movements, also session timer
+
   useEffect(() => {
-    
+
     async function checkAuthentication() {
       try {
         const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
