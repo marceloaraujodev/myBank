@@ -94,6 +94,7 @@ export async function checkAuth(req, res){
   try {
     // Retrieve the token from the request cookies
     const token = req.cookies.token;
+    console.log(token)
     
     // If the token is missing or invalid, return an unauthorized response
     if (!token) {
@@ -103,9 +104,12 @@ export async function checkAuth(req, res){
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded)
+
+    const user = await User.findById(decoded.id);
+    console.log(user)
     
     // If the token is valid, the user is authenticated
-    res.status(200).json({ success: true, isAuthenticated: true, userId: decoded.id });
+    res.status(200).json({ success: true, userInfo: user});
   } catch (error) {
     // If token verification fails, return an unauthorized response
     return res.status(401).json({ success: false, message: 'Unauthorized' });

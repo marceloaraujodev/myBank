@@ -9,7 +9,28 @@ export const UserProvider = ({children}) => {
   const [customerId, setCustomerId] = useState(null);
   const [balance, setBalance] = useState();
 
-  // useEffect(() => {}, [])
+  useEffect(() => {
+    
+    async function checkAuthentication() {
+      try {
+        const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
+          withCredentials: true
+        });
+        console.log(res.data)
+        if(res.data.success){
+          setIsAuthorized(true)
+          setCustomerName(res.data.userInfo.user)
+          setBalance(res.data.userInfo.balance)
+        }else{
+          setIsAuthorized(false)
+        }
+        
+      } catch (error) {
+        console.log(error, 'controlled error')
+      }
+    }
+    checkAuthentication();
+  }, []);
  
 
   // users login
@@ -37,6 +58,7 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
     localStorage.removeItem('token');
     const res = await axios.post('http://localhost:4000/api/v1/logout', 
     { withCredentials: true }
