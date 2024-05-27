@@ -16,9 +16,6 @@ export default function Nav() {
 
   const navigate = useNavigate();
 
-  // useEffect(()=> {
-
-  // }, [customerName])
 
   return (
     <>

@@ -1,6 +1,7 @@
 import User from '../model/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 
 // Need to adjust login to hashed password
@@ -94,11 +95,11 @@ export async function checkAuth(req, res){
   try {
     // Retrieve the token from the request cookies
     const token = req.cookies.token;
-    console.log(token)
+    // console.log(token)
     
     // If the token is missing or invalid, return an unauthorized response
     if (!token) {
-      return res.status(401).json({ success: false, message: 'Unauthorized' });
+      return res.json({ success: false, message: 'Unauthorized' });
     }
 
     // Verify the token
@@ -106,22 +107,127 @@ export async function checkAuth(req, res){
     console.log(decoded)
 
     const user = await User.findById(decoded.id);
-    console.log(user)
+    // console.log(user)
     
     // If the token is valid, the user is authenticated
     res.status(200).json({ success: true, userInfo: user});
   } catch (error) {
     // If token verification fails, return an unauthorized response
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+    // return res.status(401).json({ success: false, message: 'Unauthorized' });
+    return res.json({ success: false, message: 'Unauthorized' });
   }
 
 }
 
 // gets loan request and adds to db and balance
 export async function loans(req, res){
-  const {id, loanAmount} = req.body;
-  //$inc increments the amount passed to the balance
-  const user = await User.findByIdAndUpdate(id, {$inc: { balance: Number(loanAmount)}}, {new: true});
+  const { loanAmount } = req.body;
+  const { token } = req.cookies
+  console.log(token);
+  console.log(loanAmount)
+  // const newBalance = +loanAmount * 100;
+
+
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  const loanTransaction = {
+    day: new Date(),
+    transactionType: 'deposit',
+    amount: +loanAmount * 100
+  };
+
+ const newBalance = +loanAmount * 100;
+
+  // $inc increments the amount passed to the balance
+  const user = await User.findByIdAndUpdate(decoded.id, {
+    $inc: { balance: newBalance},
+    $push: { transactions: loanTransaction }
+    }, {new: true});
 
   console.log(user)
+  res.status(200).json({success: true, userInfo: user})
+}
+
+export async function transfer(req, res){
+  try {
+    const {transferAmount, email} = req.body;
+    const amount = Number(transferAmount);
+    const token = req.cookies.token;
+    console.log(amount)
+   
+    // If the token is missing or invalid, return an unauthorized response
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    if(isNaN(amount) || amount <= 0){
+      return res.status(400).json({success: false, message: 'Invalid transfer amount'});
+    }
+    
+    // Verify the token and get user id
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(amount, decoded.id, email)
+    
+    const session = await mongoose.startSession();
+    session.startTransaction();
+  
+    try {
+      // gets sender and recipients
+      const sender = await User.findById(decoded.id).session(session);
+      const recipient = await User.findOne({ email: email}).session(session);
+      console.log(sender)
+      console.log(recipient)
+
+      // transform amounts to cents
+      const senderTransaction = {
+        day: new Date(),
+        transactionType: 'withdrawal',
+        amount: amount * 100
+      };
+      const recipientTransaction = {
+        day: new Date(),
+        transactionType: 'deposit',
+        amount: amount * 100
+      };
+  
+      if(!sender || sender.balance < amount * 100){
+        await session.abortTransaction();
+        session.endSession();
+        res.status(40).json({success: false, message: 'Insufficent balance or sender not found'});
+      }
+  
+      if(!recipient){
+        await session.abortTransaction();
+        session.endSession();
+        res.status(400).json({success: false, message: 'Recipient not found'});
+      }
+  
+      // deduct from sender
+      sender.balance -= amount * 100;
+      sender.transactions.push(senderTransaction)
+      const updatedSender = await sender.save({session});
+
+      console.log('updatedSender', updatedSender);
+  
+      // add to recipient
+      recipient.balance += amount * 100;
+      recipient.transactions.push(recipientTransaction)
+      await recipient.save({session});
+  
+      // commit and end session;
+      await session.commitTransaction();
+      session.endSession();
+  
+      res.status(200).json({success: true, message: 'Transfer successful', userInfo: sender})
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({success: false, message: 'Internal server error'})
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
 }

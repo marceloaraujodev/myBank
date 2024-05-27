@@ -5,15 +5,20 @@ const TransactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  type: {
+  transactionType: {
     type: String,
-    enum: ['deposit', 'withdraw'],
+    enum: ['deposit', 'withdrawal'],
     required: true,
   },
+  amount: {
+    type: Number
+  }
+},{
+  timestamps: true
 });
 
 const UserSchema = new mongoose.Schema({
-  user: {
+  name: {
     type: String,
     required: true,
   },

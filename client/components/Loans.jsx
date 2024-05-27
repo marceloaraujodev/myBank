@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
 import axios from 'axios';
 
@@ -7,8 +7,12 @@ export default function Loans() {
   const {
     setBalance,
     balance,
-    customerId
+    setUserInfo
   } = useContext(UserContext)
+
+  useEffect(() => {
+    
+  }, [])
 
   function requestLoan(){
     setAmount(amount)
@@ -17,10 +21,12 @@ export default function Loans() {
   }
 
   async function updateBalance(){
-    await axios.post('http://localhost:4000/api/v1/loans',
-    {id: customerId, loanAmount: amount},
+    const res = await axios.post('http://localhost:4000/api/v1/loans',
+    { loanAmount: amount},
     { withCredentials: true }
     )
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
   }
 
   return (

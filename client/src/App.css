@@ -176,10 +176,13 @@ nav {
 
 .movements__type--deposit {
   background-image: linear-gradient(to top left, #39b385, #9be15d);
+  min-width: 94px;
+  text-align: center;
 }
 
 .movements__type--withdrawal {
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  min-width: 94px;
 }
 
 .movements__value {

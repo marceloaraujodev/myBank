@@ -7,14 +7,16 @@ import Transfers from './Transfers';
 import Loans from './Loans';
 import CloseAccount from './CloseAccount';
 import LogoutTimer from './LogoutTimer';
-import AuthContext from '../UserContext';
+// import AuthContext from '../UserContext';
+import UserContext from '../UserContext';
 
 export default function HomePage() {
-  const { isAuthorized } = useContext(AuthContext);
+  // const { isAuthorized } = useContext(AuthContext);
+  const {isAuthorized} = useContext(UserContext)
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
-    console.log('isAuthorized changed', isAuthorized);
+    // console.log('isAuthorized changed', isAuthorized);
     if (isAuthorized) {
       setTimeout(() => {
         setFadeIn(true);

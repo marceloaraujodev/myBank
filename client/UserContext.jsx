@@ -7,8 +7,10 @@ export const UserProvider = ({children}) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [customerName, setCustomerName] = useState(null);
   const [customerId, setCustomerId] = useState(null);
-  const [balance, setBalance] = useState();
-
+  const [balance, setBalance] = useState(0);
+  const [userInfo, setUserInfo] = useState(null);
+  const [interest, setInterest] = useState(null);
+  const [toggle, setToggle] = useState(true)
 
   // missin : transfer money to,  close account  and movements, also session timer
 
@@ -19,15 +21,17 @@ export const UserProvider = ({children}) => {
         const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
           withCredentials: true
         });
-        console.log(res.data)
+        // console.log(res.data)
         if(res.data.success){
+          // setUserInfo(res.data.userInfo)
           setIsAuthorized(true)
-          setCustomerName(res.data.userInfo.user)
+          setCustomerName(res.data.userInfo.name)
           setBalance(res.data.userInfo.balance)
+          setUserInfo(res.data.userInfo)
+          // console.log(res.data.userInfo)
         }else{
           setIsAuthorized(false)
-        }
-        
+        } 
       } catch (error) {
         console.log(error, 'controlled error')
       }
@@ -45,13 +49,15 @@ export const UserProvider = ({children}) => {
         { userEmail, password },
         { withCredentials: true }
       );
-      // console.log(res.data);
+      console.log(res.data.user.name);
       if(res.data){
+        setUserInfo(res.data.user)
         setIsAuthorized(true);
-        setCustomerName(res.data.user.user);
+        setCustomerName(res.data.user.name);
         setBalance(res.data.user.balance)
         setCustomerId(res.data.user._id)
         localStorage.setItem('token', res.data.token);
+        console.log(res.data.user)
       } 
     } catch (error) {
       console.log(error.response.data.message)
@@ -65,8 +71,8 @@ export const UserProvider = ({children}) => {
     localStorage.removeItem('token');
     const res = await axios.post('http://localhost:4000/api/v1/logout', 
     { withCredentials: true }
-  );
-    console.log('this is res logout', res)
+    );
+    // console.log('this is res logout', res)
     setCustomerName(null);
     setIsAuthorized(false);
 
@@ -85,6 +91,12 @@ export const UserProvider = ({children}) => {
       balance, 
       setBalance,
       customerId,
+      userInfo,
+      setUserInfo,
+      interest,
+      setInterest,
+      toggle,
+      setToggle,
     }}>
       {children}
     </UserContext.Provider>

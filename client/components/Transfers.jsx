@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import axios from 'axios';
+import UserContext from '../UserContext';
+
 
 export default function Transfers() {
+  const { setBalance, setUserInfo } = useContext(UserContext);
   const [transferTo, setTransferTo] = useState('');
   const [amount, setAmount] = useState('');
 
-  function transfer() {
-    // convert string to number, and number to us type, then submit
-    console.log(transferTo, amount)
+  async function transfer() {
+    const res = await axios.post('http://localhost:4000/api/v1/transfer', 
+      {email: transferTo, transferAmount: amount},
+      {withCredentials: true}
+    )
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
+    console.log(res.data)
   }
 
   return (
