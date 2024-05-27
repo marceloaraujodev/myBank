@@ -9,7 +9,7 @@ export default function Movements() {
   // console.log(userInfo.transactions)
 
   const {transactions} = userInfo;
-  console.log(transactions)
+  // console.log(transactions)
 
   const sortedTransactions = userInfo.transactions.slice().sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);

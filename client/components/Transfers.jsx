@@ -15,7 +15,7 @@ export default function Transfers() {
     )
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
-    console.log(res.data)
+    // console.log(res.data)
   }
 
   return (
