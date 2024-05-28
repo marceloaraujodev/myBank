@@ -27,8 +27,10 @@ export default function Summary() {
   setDeposits(formatMoney(totalDeposits))
   setWithdrawal(formatMoney(totalWithdrawals))
   setInterest(calcInterstRate(userInfo).toFixed(2))
-  // console.log(calcInterstRate(userInfo).toFixed(2))
 
+  // const lastTransactionDay = userInfo.transactions[userInfo.transactions.length -1].day;
+  // const lastTransactionDate = new Date(lastTransactionDay).toLocaleString('en-US');
+  // console.log('last Transaction Date:', lastTransactionDate)
 
   }, [])
 
@@ -46,7 +48,7 @@ export default function Summary() {
     <p className="summary__value summary__value--out">{withdrawals}</p>
     <p className="summary__label">Interest</p>
     <p className="summary__value summary__value--interest">${interest}</p>
-    <button className="btn--sort" onClick={handleSort}>{toggle ? '↑ UNSORT' : '↓ SORT'}</button>
+    <button className="btn--sort" onClick={handleSort}>{toggle ? '↑ SORT' : '↓ SORT'}</button>
   </div>
   )
 }

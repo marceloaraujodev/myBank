@@ -67,12 +67,17 @@ export async function register (req, res) {
     const {userName, password, email} = req.body;
   
     const hashedPass = await bcrypt.hash(password, 10)
+
     const newUser = {
-      user: userName,
+      name: userName,
       password: hashedPass,
       email
     }
+    // console.log(newUser)
+
     const user = await User.create(newUser);
+    
+    // console.log(user)
 
     // create a session or token not to use the 5 min timeout.
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
@@ -81,7 +86,7 @@ export async function register (req, res) {
 
     // console.log(user)
     // console.log('token', token)
-    res.status(200).json({newUser, token})
+    res.status(200).json({user, token})
     
   } catch (error) {
     console.log(error, error.message)

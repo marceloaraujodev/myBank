@@ -43,13 +43,11 @@ export const UserProvider = ({children}) => {
   // users login
   async function login(userEmail, password) {
     try {
-      // request the backend to see if credentials are true
-      // console.log(userEmail, password)
       const res = await axios.post('http://localhost:4000/api/v1/login', 
         { userEmail, password },
         { withCredentials: true }
       );
-      console.log(res.data.user.name);
+
       if(res.data){
         setUserInfo(res.data.user)
         setIsAuthorized(true);
@@ -57,7 +55,7 @@ export const UserProvider = ({children}) => {
         setBalance(res.data.user.balance)
         setCustomerId(res.data.user._id)
         localStorage.setItem('token', res.data.token);
-        console.log(res.data.user)
+        // console.log(res.data.user)
       } 
     } catch (error) {
       console.log(error.response.data.message)
@@ -69,6 +67,7 @@ export const UserProvider = ({children}) => {
   async function logout(){
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
     localStorage.removeItem('token');
+    localStorage.removeItem('logout-timer');
     const res = await axios.post('http://localhost:4000/api/v1/logout', 
     { withCredentials: true }
     );

@@ -4,10 +4,11 @@ import dateFormat, {masks} from 'dateformat';
 
 export default function Balance() {
   const {
-    balance
+    // balance,
+    userInfo
   } = useContext(UserContext);
 
-  const balanceInDollars = balance / 100;
+  const balanceInDollars = userInfo.balance / 100;
   // usd styled
   const formater = new Intl.NumberFormat('en-US', {
     style: 'currency',

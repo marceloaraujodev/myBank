@@ -8,7 +8,7 @@ export default function Register() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isAuthorized, setIsAuthorized, setCustomerName } =
+  const { isAuthorized, setIsAuthorized, setCustomerName, setUserInfo } =
     useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -21,12 +21,13 @@ export default function Register() {
       email,
       password,
     });
-
+    // console.log(res.data.user)
     if (res.status === 200) {
+      setUserInfo(res.data.user)
       setIsAuthorized(true);
       navigate('/');
+      // setUserInfo(res.data.)
     }
-    console.log(res.data, res);
   }
 
   return (
