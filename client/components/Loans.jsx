@@ -18,6 +18,8 @@ export default function Loans() {
     setAmount(amount)
     setBalance(Number(balance) + Number(amount))
     updateBalance()
+    alert('Your loan request was approved!');
+    setAmount('');
   }
 
   async function updateBalance(){

@@ -22,7 +22,6 @@ export default function LogoutTimer() {
         if(prevTime <= 1){
           localStorage.removeItem('logout-timer');
           logout()
-          return 0;
         }
         return prevTime - 1;
       });

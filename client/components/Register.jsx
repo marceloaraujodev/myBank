@@ -1,34 +1,15 @@
-import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext } from 'react';
 import Nav from './Nav';
-import axios from 'axios';
 import AuthContext from '../UserContext';
 
 export default function Register() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isAuthorized, setIsAuthorized, setCustomerName, setUserInfo } =
+  const { isAuthorized, register } =
     useContext(AuthContext);
 
-  const navigate = useNavigate();
 
-  // after register create a session, will get the user name from the session to be used in the header
-  async function register() {
-    setCustomerName(userName);
-    const res = await axios.post('http://localhost:4000/api/v1/register', {
-      userName,
-      email,
-      password,
-    });
-    // console.log(res.data.user)
-    if (res.status === 200) {
-      setUserInfo(res.data.user)
-      setIsAuthorized(true);
-      navigate('/');
-      // setUserInfo(res.data.)
-    }
-  }
 
   return (
     <>
@@ -69,10 +50,7 @@ export default function Register() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                register();
-                // setUserName('');
-                // setPassword('');
-                // setEmail('');
+                register(userName, email, password)
               }}
               className="login__btn">
               &rarr;

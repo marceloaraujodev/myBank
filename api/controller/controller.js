@@ -2,6 +2,7 @@ import User from '../model/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import emailValidator from 'email-validator';
 
 
 // Need to adjust login to hashed password
@@ -64,7 +65,20 @@ export async function logout(req, res) {
 
 export async function register (req, res) {
   try {
-    const {userName, password, email} = req.body;
+    let {userName, password, email} = req.body;
+
+    // sanitize
+    userName.trim();
+    email.trim().toLowerCase();
+    password.trim();
+
+    if(!email || !password || !userName){
+      res.status(401).json({success: false, message: 'All fields are required.'})
+    }
+
+    if(!emailValidator.validator(email)){
+      res.status(401).json({success: false, message: 'Please provide a valid email'})
+    }
   
     const hashedPass = await bcrypt.hash(password, 10)
 
@@ -76,16 +90,21 @@ export async function register (req, res) {
     // console.log(newUser)
 
     const user = await User.create(newUser);
-    
-    // console.log(user)
 
-    // create a session or token not to use the 5 min timeout.
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES
     })
 
-    // console.log(user)
-    // console.log('token', token)
+    // Turn httpOnly to true for production
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+    res.cookie('token', token, {
+      expires: expirationDate,
+      httpOnly: false,
+      secure: false,
+      sameSite: 'strict',
+      path: '/' 
+    })
     res.status(200).json({user, token})
     
   } catch (error) {
@@ -243,4 +262,16 @@ export async function transfer(req, res){
     res.status(500).json({success: false, message: 'Internal server error'})
   }
 
+}
+
+export async function deleteUser(req, res){
+  try {
+    const {token} = req.cookies;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    await User.deleteOne({_id: decoded.id})
+    res.status(201).json({success: true, message: 'User deleted successfully'})
+    
+  } catch (error) {
+    console.log(error, 'Internal server error')
+  }
 }

@@ -32,7 +32,7 @@ export default function Summary() {
   // const lastTransactionDate = new Date(lastTransactionDay).toLocaleString('en-US');
   // console.log('last Transaction Date:', lastTransactionDate)
 
-  }, [])
+  }, [userInfo])
 
   function handleSort(){
     console.log('click')

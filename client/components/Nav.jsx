@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
 import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
 

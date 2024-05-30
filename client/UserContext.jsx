@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import clearCookiesLocalStorage from './utils/clearCookiesLocalStorage';
 
 const UserContext = createContext();
 
@@ -12,7 +14,7 @@ export const UserProvider = ({children}) => {
   const [interest, setInterest] = useState(null);
   const [toggle, setToggle] = useState(true)
 
-  // missin : transfer money to,  close account  and movements, also session timer
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -23,7 +25,6 @@ export const UserProvider = ({children}) => {
         });
         // console.log(res.data)
         if(res.data.success){
-          // setUserInfo(res.data.userInfo)
           setIsAuthorized(true)
           setCustomerName(res.data.userInfo.name)
           setBalance(res.data.userInfo.balance)
@@ -65,19 +66,42 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-    localStorage.removeItem('token');
-    localStorage.removeItem('logout-timer');
+    clearCookiesLocalStorage()
     const res = await axios.post('http://localhost:4000/api/v1/logout', 
     { withCredentials: true }
     );
     // console.log('this is res logout', res)
     setCustomerName(null);
     setIsAuthorized(false);
-
   }
 
+  async function deleteAccount(){
+    alert("Are you sure you want to delete your account? This is permanent and cannot be undone.")
+    await axios.delete('http://localhost:4000/api/v1/delete', 
+    {withCredentials: true}
+   );
+   clearCookiesLocalStorage();
+   setIsAuthorized(false);
+   alert('Your account has be successfully deleted. Thank you for you bussiness')
+  }
 
+  async function register(userName, email, password) {
+    // fast way to get the name of the user when he signs up whiout having to wait for the fetch gets name from the form
+    setCustomerName(userName)
+    const res = await axios.post('http://localhost:4000/api/v1/register', {
+      userName,
+      email,
+      password,
+    },
+   {withCredentials: true});
+    // console.log(res.data.user)
+    if (res.status === 200) {
+      setUserInfo(res.data.user)
+      setIsAuthorized(true);
+      navigate('/');
+      // setUserInfo(res.data.)
+    }
+  }
   
   return (
     <UserContext.Provider value={{
@@ -96,6 +120,8 @@ export const UserProvider = ({children}) => {
       setInterest,
       toggle,
       setToggle,
+      deleteAccount,
+      register
     }}>
       {children}
     </UserContext.Provider>

@@ -15,6 +15,9 @@ export default function Transfers() {
     )
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
+    alert('Your transfer was Successfull')
+    setTransferTo('');
+    setAmount('');
     // console.log(res.data)
   }
 

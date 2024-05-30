@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from '../UserContext';
 
 export default function CloseAccount() {
   const [confirmUser, setConfirmUser] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
 
-  function deleteUser(){
-    // delete user in db
-    console.log(confirmPin, confirmUser)
-  }
+  const {deleteAccount} = useContext(UserContext);
 
   return (
     <div className="operation operation--close">
@@ -32,7 +30,7 @@ export default function CloseAccount() {
       />
       <button onClick={(e) => {
         e.preventDefault()
-        deleteUser()
+        deleteAccount()
       }} className="form__btn form__btn--close">&rarr;</button>
       <label className="form__label">Confirm user</label>
       <label className="form__label">Confirm PIN</label>
