@@ -9,8 +9,6 @@ export default function Register() {
   const { isAuthorized, register } =
     useContext(AuthContext);
 
-
-
   return (
     <>
       <Nav />
