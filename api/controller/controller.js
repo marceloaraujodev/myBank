@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import emailValidator from 'email-validator';
 
-
 // Need to adjust login to hashed password
 export async function login (req, res) {
   try {
@@ -73,12 +72,16 @@ export async function register (req, res) {
     password.trim();
 
     if(!email || !password || !userName){
-      res.status(401).json({success: false, message: 'All fields are required.'})
+      console.log('enter no email or ...')
+      return res.json({success: false, message: 'All fields are required.'})
+    }
+ 
+
+    if(!emailValidator.validate(email)){
+      console.log('enter email wrong')
+      return res.json({success: false, message: 'Please provide a valid email'})
     }
 
-    if(!emailValidator.validator(email)){
-      res.status(401).json({success: false, message: 'Please provide a valid email'})
-    }
   
     const hashedPass = await bcrypt.hash(password, 10)
 
@@ -87,7 +90,7 @@ export async function register (req, res) {
       password: hashedPass,
       email
     }
-    // console.log(newUser)
+    console.log(newUser)
 
     const user = await User.create(newUser);
 

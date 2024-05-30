@@ -57,6 +57,7 @@ export const UserProvider = ({children}) => {
         setCustomerId(res.data.user._id)
         localStorage.setItem('token', res.data.token);
         // console.log(res.data.user)
+        navigate('/');
       } 
     } catch (error) {
       console.log(error.response.data.message)
@@ -86,20 +87,24 @@ export const UserProvider = ({children}) => {
   }
 
   async function register(userName, email, password) {
-    // fast way to get the name of the user when he signs up whiout having to wait for the fetch gets name from the form
-    setCustomerName(userName)
+
     const res = await axios.post('http://localhost:4000/api/v1/register', {
       userName,
       email,
       password,
     },
-   {withCredentials: true});
-    // console.log(res.data.user)
+    {withCredentials: true});
+    // console.log(res.data)
     if (res.status === 200) {
       setUserInfo(res.data.user)
       setIsAuthorized(true);
       navigate('/');
-      // setUserInfo(res.data.)
+      setCustomerName(userName)
+    }
+    if(res.data.success === false){
+      alert(res.data.message)
+      setIsAuthorized(false);
+      navigate('/register')
     }
   }
   
