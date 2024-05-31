@@ -26,13 +26,13 @@ export const UserProvider = ({children}) => {
         const res = await axios.get('https://mybank-x2pk.onrender.com/api/v1/checkauth', {
           withCredentials: true
         });
-        // console.log(res.data)
+
         if(res.data.success){
           setIsAuthorized(true)
           setCustomerName(res.data.userInfo.name)
           setBalance(res.data.userInfo.balance)
           setUserInfo(res.data.userInfo)
-          // console.log(res.data.userInfo)
+
         }else{
           setIsAuthorized(false)
         } 
@@ -72,7 +72,7 @@ export const UserProvider = ({children}) => {
     {},
     { withCredentials: true }
    );
-    console.log(res.data)
+
     setCustomerName(null);
     setIsAuthorized(false);
     clearCookiesLocalStorage()
@@ -118,7 +118,6 @@ export const UserProvider = ({children}) => {
       { withCredentials: true }
     );
 
-   console.log(res.data)
     setBalance(Number(balance) + Number(amount))
     alert('Your loan request was approved!');
     setBalance(res.data.userInfo.balance)
@@ -133,7 +132,6 @@ export const UserProvider = ({children}) => {
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
     alert('Your transfer was Successfull')
-    // console.log(res.data)
   }
   
   return (

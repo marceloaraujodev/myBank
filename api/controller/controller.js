@@ -52,8 +52,6 @@ export async function login (req, res) {
 }
 
 export async function logout(req, res) {
-  console.log('this is req.cookies----------', req.cookies)
-  console.log(req.body)
   res.cookie('token', null, {
     expires: new Date(0),
     httpOnly: true,
@@ -92,7 +90,7 @@ export async function register (req, res) {
       password: hashedPass,
       email
     }
-    console.log(newUser)
+    
 
     const user = await User.create(newUser);
 
@@ -124,7 +122,6 @@ export async function checkAuth(req, res){
   try {
     // Retrieve the token from the request cookies
     const token = req.cookies.token;
-    console.log(token)
     
     // If the token is missing or invalid, return an unauthorized response
     if (!token) {
@@ -133,7 +130,6 @@ export async function checkAuth(req, res){
 
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded)
 
     const user = await User.findById(decoded.id);
     // console.log(user)
@@ -153,11 +149,7 @@ export async function loans(req, res){
   try {
     const { loanAmount } = req.body;
     const { token } = req.cookies
-    console.log(req.cookies)
-    console.log(token); 
-    console.log(req.body)
-
-
+ 
     if(!token){
       return res.status(400).json({success: false, message: 'Unauthorized. Please login'})
     }
@@ -193,7 +185,6 @@ export async function transfer(req, res){
     const {transferAmount, email} = req.body;
     const amount = Number(transferAmount);
     const token = req.cookies.token;
-    console.log(amount)
    
     // If the token is missing or invalid, return an unauthorized response
     if (!token) {
@@ -215,8 +206,6 @@ export async function transfer(req, res){
       // gets sender and recipients
       const sender = await User.findById(decoded.id).session(session);
       const recipient = await User.findOne({ email: email}).session(session);
-      console.log(sender)
-      console.log(recipient)
 
       // transform amounts to cents
       const senderTransaction = {
@@ -245,9 +234,7 @@ export async function transfer(req, res){
       // deduct from sender
       sender.balance -= amount * 100;
       sender.transactions.push(senderTransaction)
-      const updatedSender = await sender.save({session});
-
-      console.log('updatedSender', updatedSender);
+      await sender.save({session});
   
       // add to recipient
       recipient.balance += amount * 100;
