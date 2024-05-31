@@ -124,7 +124,7 @@ export async function checkAuth(req, res){
   try {
     // Retrieve the token from the request cookies
     const token = req.cookies.token;
-    // console.log(token)
+    console.log(token)
     
     // If the token is missing or invalid, return an unauthorized response
     if (!token) {
