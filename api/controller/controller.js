@@ -150,9 +150,7 @@ export async function checkAuth(req, res){
 export async function loans(req, res){
   const { loanAmount } = req.body;
   const { token } = req.cookies
-  console.log(token);
-  console.log(loanAmount)
-  // const newBalance = +loanAmount * 100;
+
   try {
 
     if(!token){

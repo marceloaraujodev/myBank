@@ -115,10 +115,12 @@ export const UserProvider = ({children}) => {
       {email: transferTo, transferAmount: amount},
       {withCredentials: true}
     )
+    console.log(res.data)
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
     alert('Your transfer was Successfull')
-    // console.log(res.data)
+    console.log(balance)
+    console.log(userInfo)
   }
   
   return (
