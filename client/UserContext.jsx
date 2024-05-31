@@ -23,7 +23,7 @@ export const UserProvider = ({children}) => {
 
     async function checkAuthentication() {
       try {
-        const res = await axios.get('https://mybank-x2pk.onrender.com/api/v1/checkauth', {
+        const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
           withCredentials: true
         });
         // console.log(res.data)
@@ -46,7 +46,7 @@ export const UserProvider = ({children}) => {
   // users login
   async function login(userEmail, password) {
     try {
-      const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/login', 
+      const res = await axios.post('http://localhost:4000/api/v1/login', 
         { userEmail, password },
         { withCredentials: true }
       );
@@ -69,7 +69,7 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/logout', 
+    const res = await axios.post('http://localhost:4000/api/v1/logout', 
     {},
     { withCredentials: true }
    );
@@ -81,7 +81,7 @@ export const UserProvider = ({children}) => {
 
   async function deleteAccount(){
     alert("Are you sure you want to delete your account? This is permanent and cannot be undone.")
-    await axios.delete('https://mybank-x2pk.onrender.com/api/v1/delete', 
+    await axios.delete('http://localhost:4000/api/v1/delete', 
     {withCredentials: true}
    );
    clearCookiesLocalStorage();
@@ -91,7 +91,7 @@ export const UserProvider = ({children}) => {
 
   async function register(userName, email, password) {
 
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/register', {
+    const res = await axios.post('http://localhost:4000/api/v1/register', {
       userName,
       email,
       password,
@@ -113,10 +113,11 @@ export const UserProvider = ({children}) => {
 
   async function requestLoan(amount) {
 
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans', {
-      loanAmount: amount
-    },
-    {withCredentials: true});
+    const res = await axios.post(
+      'https://mybank-x2pk.onrender.com/api/v1/loans',
+      { loanAmount: amount },
+      { withCredentials: true }
+    );
 
    console.log(res.data)
     setBalance(Number(balance) + Number(amount))
@@ -126,7 +127,7 @@ export const UserProvider = ({children}) => {
   }
 
   async function transfer(transferTo, amount) {
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
+    const res = await axios.post('http://localhost:4000/api/v1/transfer', 
       {email: transferTo, transferAmount: amount},
       {withCredentials: true}
     )
