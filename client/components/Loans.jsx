@@ -10,6 +10,21 @@ export default function Loans() {
     requestLoan
   } = useContext(UserContext)
 
+  async function requestLoan() {
+
+    const res = await axios.post(
+      'https://mybank-x2pk.onrender.com/api/v1/loans',
+      { loanAmount: amount },
+      { withCredentials: true }
+    );
+
+   console.log(res.data)
+  //   setBalance(Number(balance) + Number(amount))
+  //   alert('Your loan request was approved!');
+  //   setBalance(res.data.userInfo.balance)
+  //   setUserInfo(res.data.userInfo)
+  }
+
 
   return (
     <div className="operation operation--loan">
@@ -22,7 +37,7 @@ export default function Loans() {
       <button onClick={(e) => { 
             e.preventDefault()
             requestLoan(amount);
-            setAmount('');
+            // setAmount('');
           }} className="form__btn form__btn--loan">&rarr;</button>
       <label className="form__label form__label--loan">Amount</label>
     </form>
