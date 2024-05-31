@@ -150,15 +150,15 @@ export async function checkAuth(req, res){
 
 // gets loan request and adds to db and balance
 export async function loans(req, res){
-  const { loanAmount } = req.body;
-  const { token } = req.cookies
-  console.log(token);
-  console.log(loanAmount)
-
+  
   try {
+    const { loanAmount } = req.body;
+    const { token } = req.cookies
+    console.log(token); // comming undefined in the server
+    console.log(loanAmount)
 
     if(!token){
-      res.status(400).json({success: false, message: 'Unauthorized. Please login'})
+      return res.status(400).json({success: false, message: 'Unauthorized. Please login'})
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -179,10 +179,10 @@ export async function loans(req, res){
       }, {new: true});
   
     // console.log(user)
-    res.status(200).json({success: true, userInfo: user})
+    return res.status(200).json({success: true, userInfo: user})
     
   } catch (error) {
-    res.status(500).json({success: false, message: 'Internal server error.'})
+    return res.status(500).json({success: false, message: 'Internal server error.'})
   }
 
 }

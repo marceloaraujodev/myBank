@@ -26,7 +26,7 @@ export const UserProvider = ({children}) => {
         const res = await axios.get('https://mybank-x2pk.onrender.com/api/v1/checkauth', {
           withCredentials: true
         });
-        console.log(res.data)
+        // console.log(res.data)
         if(res.data.success){
           setIsAuthorized(true)
           setCustomerName(res.data.userInfo.name)
