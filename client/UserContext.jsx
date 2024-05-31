@@ -71,11 +71,11 @@ export const UserProvider = ({children}) => {
   async function logout(){
     const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/logout', 
     { withCredentials: true }
-  );
-  // console.log('this is res logout', res)
-  setCustomerName(null);
-  setIsAuthorized(false);
-  clearCookiesLocalStorage()
+   );
+    // console.log('this is res logout', res)
+    setCustomerName(null);
+    setIsAuthorized(false);
+    clearCookiesLocalStorage()
   }
 
   async function deleteAccount(){
@@ -111,17 +111,27 @@ export const UserProvider = ({children}) => {
   }
 
   async function transfer(transferTo, amount) {
-    // const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
-    //   {email: transferTo, transferAmount: amount},
-    //   {withCredentials: true}
-    // )
-    console.log(transferTo, amount)
-    console.log(res.data)
-    // setBalance(res.data.userInfo.balance)
-    // setUserInfo(res.data.userInfo)
-    // alert('Your transfer was Successfull')
+    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
+      {email: transferTo, transferAmount: amount},
+      {withCredentials: true}
+    )
+    // console.log(transferTo, amount)
+    // console.log(res.data)
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
+    alert('Your transfer was Successfull')
     // console.log(balance)
     // console.log(userInfo)
+  }
+
+  async function requestLoan(amount){ 
+    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
+    { loanAmount: amount},
+    { withCredentials: true }
+  )
+    alert('Your loan request was approved!');
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
   }
   
   return (
@@ -143,7 +153,8 @@ export const UserProvider = ({children}) => {
       setToggle,
       deleteAccount,
       register,
-      transfer
+      transfer,
+      requestLoan
     }}>
       {children}
     </UserContext.Provider>
