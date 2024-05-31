@@ -54,8 +54,8 @@ export async function login (req, res) {
 export async function logout(req, res) {
   res.cookie('token', null, {
     expires: new Date(0), // Set expiration date to immediately expire
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: 'strict',
     path: '/' 
   })
