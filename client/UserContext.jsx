@@ -23,7 +23,7 @@ export const UserProvider = ({children}) => {
 
     async function checkAuthentication() {
       try {
-        const res = await axios.get('http://localhost:4000/api/v1/checkauth', {
+        const res = await axios.get('https://mybank-x2pk.onrender.com/api/v1/checkauth', {
           withCredentials: true
         });
         // console.log(res.data)
