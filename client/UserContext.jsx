@@ -119,10 +119,10 @@ export const UserProvider = ({children}) => {
     );
 
    console.log(res.data)
-  //   setBalance(Number(balance) + Number(amount))
-  //   alert('Your loan request was approved!');
-  //   setBalance(res.data.userInfo.balance)
-  //   setUserInfo(res.data.userInfo)
+    setBalance(Number(balance) + Number(amount))
+    alert('Your loan request was approved!');
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
   }
 
   async function transfer(transferTo, amount) {
