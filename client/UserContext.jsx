@@ -112,31 +112,22 @@ export const UserProvider = ({children}) => {
     }
   }
 
-  async function transfer(transferTo, amount) {
-    const res = await axios.post('http://localhost:4000/api/v1/transfer', 
-      {email: transferTo, transferAmount: amount},
-      {withCredentials: true}
-    )
-    // console.log(transferTo, amount)
-    // console.log(res.data)
+
+  async function requestLoan(amount) {
+
+    const res = await axios.post('http://localhost:4000/api/v1/loans', {
+      loanAmount: amount
+    },
+    {withCredentials: true});
+
+   console.log(res.data)
+    setBalance(Number(balance) + Number(amount))
+    alert('Your loan request was approved!');
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
-    alert('Your transfer was Successfull')
-    // console.log(balance)
-    // console.log(userInfo)
   }
 
-  async function requestLoan(amount){ 
-    console.log(amount)
-    const res = await axios.post('http://localhost:4000/api/v1/loans', 
-      { loanAmount: amount }, 
-      { withCredentials: true }  // ensure this is set to true
-    );
-   console.log(res.data)
-  //   alert('Your loan request was approved!');
-  //   setBalance(res.data.userInfo.balance)
-  //   setUserInfo(res.data.userInfo)
-  }
+  
   
   return (
     <UserContext.Provider value={{
@@ -157,7 +148,6 @@ export const UserProvider = ({children}) => {
       setToggle,
       deleteAccount,
       register,
-      transfer,
       requestLoan
     }}>
       {children}

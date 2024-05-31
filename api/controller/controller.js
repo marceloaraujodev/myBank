@@ -150,9 +150,9 @@ export async function checkAuth(req, res){
 export async function loans(req, res){
   const { loanAmount } = req.body;
   const { token } = req.cookies
-  console.log(req.cookies)
-  console.log({token})
-  console.log({loanAmount})
+  console.log(token);
+  console.log(loanAmount)
+
   try {
 
   //   if(!token){
@@ -176,9 +176,8 @@ export async function loans(req, res){
   //     $push: { transactions: loanTransaction }
   //     }, {new: true});
   
-  //   console.log(user)
-  //   res.status(200).json({success: true, userInfo: user})
-  
+    // console.log(user)
+    res.status(200).json({success: true, userInfo: user})
     
   } catch (error) {
     res.status(500).json({success: false, message: 'Internal server error.'})
