@@ -152,7 +152,7 @@ export async function loans(req, res){
   const { token } = req.cookies
 
   try {
-
+    
     if(!token){
       res.status(400).json({success: false, message: 'Unauthorized. Please login'})
     }
