@@ -23,7 +23,7 @@ export default function Loans() {
   }
 
   async function updateBalance(){
-    const res = await axios.post('http://localhost:4000/api/v1/loans',
+    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
     { loanAmount: amount},
     { withCredentials: true }
     )
