@@ -36,8 +36,8 @@ export async function login (req, res) {
       expirationDate.setDate(expirationDate.getDate() + 1);
       res.cookie('token', token, {
         expires: expirationDate,
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: true,
         sameSite: 'strict',
         path: '/' 
       })
@@ -54,8 +54,8 @@ export async function login (req, res) {
 export async function logout(req, res) {
   res.cookie('token', null, {
     expires: new Date(0), // Set expiration date to immediately expire
-    httpOnly: false,
-    secure: false,
+    httpOnly: true,
+    secure: true,
     sameSite: 'strict',
     path: '/' 
   })
@@ -103,8 +103,8 @@ export async function register (req, res) {
     expirationDate.setDate(expirationDate.getDate() + 1);
     res.cookie('token', token, {
       expires: expirationDate,
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: 'strict',
       path: '/' 
     })

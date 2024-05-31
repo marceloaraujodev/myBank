@@ -1,25 +1,12 @@
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import UserContext from '../UserContext';
 
 
 export default function Transfers() {
-  const { setBalance, setUserInfo } = useContext(UserContext);
+  const { transfer } = useContext(UserContext);
   const [transferTo, setTransferTo] = useState('');
   const [amount, setAmount] = useState('');
 
-  async function transfer() {
-    const res = await axios.post('http://localhost:4000/api/v1/transfer', 
-      {email: transferTo, transferAmount: amount},
-      {withCredentials: true}
-    )
-    setBalance(res.data.userInfo.balance)
-    setUserInfo(res.data.userInfo)
-    alert('Your transfer was Successfull')
-    setTransferTo('');
-    setAmount('');
-    // console.log(res.data)
-  }
 
   return (
     <div className="operation operation--transfer">
@@ -43,7 +30,9 @@ export default function Transfers() {
         />
         <button onClick={(e) => { 
             e.preventDefault()
-            transfer();
+            transfer(transferTo, amount);
+            setTransferTo('');
+            setAmount('');
           }} className="form__btn form__btn--transfer">
           &rarr;
         </button>

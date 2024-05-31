@@ -107,6 +107,19 @@ export const UserProvider = ({children}) => {
       navigate('/register')
     }
   }
+
+  async function transfer(transferTo, amount) {
+    const res = await axios.post('http://localhost:4000/api/v1/transfer', 
+      {email: transferTo, transferAmount: amount},
+      {withCredentials: true}
+    )
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
+    alert('Your transfer was Successfull')
+    setTransferTo('');
+    setAmount('');
+    // console.log(res.data)
+  }
   
   return (
     <UserContext.Provider value={{
@@ -126,7 +139,8 @@ export const UserProvider = ({children}) => {
       toggle,
       setToggle,
       deleteAccount,
-      register
+      register,
+      transfer
     }}>
       {children}
     </UserContext.Provider>
