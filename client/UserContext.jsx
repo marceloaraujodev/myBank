@@ -57,7 +57,6 @@ export const UserProvider = ({children}) => {
         setCustomerName(res.data.user.name);
         setBalance(res.data.user.balance)
         setCustomerId(res.data.user._id)
-        localStorage.setItem('token', res.data.token);
         // console.log(res.data.user)
         navigate('/');
       } 
@@ -120,10 +119,10 @@ export const UserProvider = ({children}) => {
     );
 
    console.log(res.data)
-    setBalance(Number(balance) + Number(amount))
-    alert('Your loan request was approved!');
-    setBalance(res.data.userInfo.balance)
-    setUserInfo(res.data.userInfo)
+  //   setBalance(Number(balance) + Number(amount))
+  //   alert('Your loan request was approved!');
+  //   setBalance(res.data.userInfo.balance)
+  //   setUserInfo(res.data.userInfo)
   }
 
   async function transfer(transferTo, amount) {
