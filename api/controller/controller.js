@@ -157,6 +157,7 @@ export async function loans(req, res){
     // console.log(token); // comming undefined in the server
     console.log(req.body)
 
+
   //   if(!token){
   //     return res.status(400).json({success: false, message: 'Unauthorized. Please login'})
   //   }
