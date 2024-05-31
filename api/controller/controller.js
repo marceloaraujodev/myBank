@@ -38,7 +38,7 @@ export async function login (req, res) {
         expires: expirationDate,
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
         path: '/' 
       })
       res.status(200).json({user, token});
@@ -58,7 +58,7 @@ export async function logout(req, res) {
     expires: new Date(0),
     httpOnly: true,
     secure: true,
-    sameSite: 'strict',
+    sameSite: 'none',
     path: '/' 
   })
   res.status(200).json({ success: true, message: 'Logged out successfully' });
