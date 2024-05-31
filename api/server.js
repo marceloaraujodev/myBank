@@ -17,7 +17,7 @@ app.use(cookieParser()); // cookie parser
 
 app.use(morgan('dev')); // logger
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173' || 'https://mybank-x2pk.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust this based on your needs
   credentials: true
 }));
