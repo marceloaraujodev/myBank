@@ -11,24 +11,6 @@ export default function Loans() {
   } = useContext(UserContext)
 
 
-
-  // function requestLoan(){
-  //   setAmount(amount)
-  //   setBalance(Number(balance) + Number(amount))
-  //   updateBalance()
-  //   alert('Your loan request was approved!');
-  //   setAmount('');
-  // }
-
-  // async function updateBalance(){
-  //   const res = await axios.post('http://localhost:4000/api/v1/loans',
-  //   { loanAmount: amount},
-  //   { withCredentials: true }
-  //   )
-  //   setBalance(res.data.userInfo.balance)
-  //   setUserInfo(res.data.userInfo)
-  // }
-
   return (
     <div className="operation operation--loan">
     <h2>Request loan</h2>
