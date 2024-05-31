@@ -110,20 +110,23 @@ export const UserProvider = ({children}) => {
     }
   }
 
-  // async function requestLoan(amount) {
+  async function requestLoan(amount) {
 
-  //   const res = await axios.post(
-  //     'https://mybank-x2pk.onrender.com/api/v1/loans',
-  //     { loanAmount: amount },
-  //     { withCredentials: true }
-  //   );
+    const res = await axios.post(
+      'https://mybank-x2pk.onrender.com/api/v1/loans',
+      {
+        method: "post",
+        loanAmount: amount,
+        withCredentials: true
+      }
+    );
 
-  //  console.log(res.data)
-  // //   setBalance(Number(balance) + Number(amount))
-  // //   alert('Your loan request was approved!');
-  // //   setBalance(res.data.userInfo.balance)
-  // //   setUserInfo(res.data.userInfo)
-  // }
+   console.log(res.data)
+  //   setBalance(Number(balance) + Number(amount))
+  //   alert('Your loan request was approved!');
+  //   setBalance(res.data.userInfo.balance)
+  //   setUserInfo(res.data.userInfo)
+  }
 
   async function transfer(transferTo, amount) {
     const res = await axios.post('http://localhost:4000/api/v1/transfer', 

@@ -9,21 +9,7 @@ export default function Loans() {
     setUserInfo,
     requestLoan
   } = useContext(UserContext)
-
-  async function requestLoan() {
-
-    const res = await axios.post(
-      'https://mybank-x2pk.onrender.com/api/v1/loans',
-      { loanAmount: amount },
-      { withCredentials: true }
-    );
-
-   console.log(res.data)
-  //   setBalance(Number(balance) + Number(amount))
-  //   alert('Your loan request was approved!');
-  //   setBalance(res.data.userInfo.balance)
-  //   setUserInfo(res.data.userInfo)
-  }
+  
 
 
   return (
