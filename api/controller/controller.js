@@ -153,8 +153,9 @@ export async function loans(req, res){
   
   try {
     const { loanAmount } = req.body;
-    const { token } = req.cookies
-    console.log(token); // comming undefined in the server
+    // const { token } = req.cookies
+    console.log(req.cookies)
+    // console.log(token); // comming undefined in the server
     console.log(loanAmount)
 
     if(!token){
