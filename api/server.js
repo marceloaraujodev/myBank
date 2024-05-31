@@ -9,15 +9,13 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 
-
-
 const app = express();
 
 app.use(cookieParser()); // cookie parser
 
 app.use(morgan('dev')); // logger
 app.use(cors({
-  origin: 'https://mybank-x2pk.onrender.com', 
+  origin: 'https://mybank-client.onrender.com', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust this based on your needs
   credentials: true
 }));
