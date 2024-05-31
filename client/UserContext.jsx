@@ -126,11 +126,11 @@ export const UserProvider = ({children}) => {
 
   async function requestLoan(amount){ 
     console.log(amount)
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
-    { loanAmount: amount},
-    // { withCredentials: true }
-   )
-  //  console.log(res.data)
+    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans', 
+      { loanAmount: amount }, 
+      { withCredentials: true }  // ensure this is set to true
+    );
+   console.log(res.data)
   //   alert('Your loan request was approved!');
   //   setBalance(res.data.userInfo.balance)
   //   setUserInfo(res.data.userInfo)

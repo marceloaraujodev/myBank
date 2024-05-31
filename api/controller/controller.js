@@ -149,9 +149,9 @@ export async function checkAuth(req, res){
 // gets loan request and adds to db and balance
 export async function loans(req, res){
   const { loanAmount } = req.body;
-  // const { token } = req.cookies
-  // console.log(req.cookies)
-  // console.log({token})
+  const { token } = req.cookies
+  console.log(req.cookies)
+  console.log({token})
   console.log({loanAmount})
   try {
 
@@ -178,7 +178,7 @@ export async function loans(req, res){
   
   //   console.log(user)
   //   res.status(200).json({success: true, userInfo: user})
-  res.json('ok')
+  
     
   } catch (error) {
     res.status(500).json({success: false, message: 'Internal server error.'})
