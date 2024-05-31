@@ -52,10 +52,12 @@ export async function login (req, res) {
 }
 
 export async function logout(req, res) {
+  console.log('this is req.cookies----------', req.cookies)
+  console.log(req.body)
   res.cookie('token', null, {
-    expires: new Date(0), // Set expiration date to immediately expire
-    httpOnly: false,
-    secure: false,
+    expires: new Date(0),
+    httpOnly: true,
+    secure: true,
     sameSite: 'strict',
     path: '/' 
   })
@@ -155,26 +157,26 @@ export async function loans(req, res){
 
   try {
 
-  //   if(!token){
-  //     res.status(400).json({success: false, message: 'Unauthorized. Please login'})
-  //   }
+    if(!token){
+      res.status(400).json({success: false, message: 'Unauthorized. Please login'})
+    }
 
-  //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
   
-  //   const loanTransaction = {
-  //     day: new Date(),
-  //     transactionType: 'deposit',
-  //     amount: +loanAmount * 100
-  //   };
+    const loanTransaction = {
+      day: new Date(),
+      transactionType: 'deposit',
+      amount: +loanAmount * 100
+    };
   
-  //  const newBalance = +loanAmount * 100;
-  // //  const maxLoan = newBalance * 10
+   const newBalance = +loanAmount * 100;
+  //  const maxLoan = newBalance * 10
   
-  //   // $inc increments the amount passed to the balance
-  //   const user = await User.findByIdAndUpdate(decoded.id, {
-  //     $inc: { balance: newBalance},
-  //     $push: { transactions: loanTransaction }
-  //     }, {new: true});
+    // $inc increments the amount passed to the balance
+    const user = await User.findByIdAndUpdate(decoded.id, {
+      $inc: { balance: newBalance},
+      $push: { transactions: loanTransaction }
+      }, {new: true});
   
     // console.log(user)
     res.status(200).json({success: true, userInfo: user})

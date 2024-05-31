@@ -70,14 +70,14 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-    clearCookiesLocalStorage()
-    await axios.post('http://localhost:4000/api/v1/logout', 
+    const res = await axios.post('http://localhost:4000/api/v1/logout', 
+    {},
     { withCredentials: true }
    );
-    // console.log('this is res logout', res)
+    console.log(res.data)
     setCustomerName(null);
     setIsAuthorized(false);
+    clearCookiesLocalStorage()
   }
 
   async function deleteAccount(){
