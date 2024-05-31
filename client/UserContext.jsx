@@ -124,17 +124,17 @@ export const UserProvider = ({children}) => {
     // console.log(userInfo)
   }
 
-  // async function requestLoan(amount){ 
-  //   console.log(amount)
-  //   const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
-  //   { loanAmount: amount},
-  //   { withCredentials: true }
-  //  )
+  async function requestLoan(amount){ 
+    console.log(amount)
+    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
+    { loanAmount: amount},
+    // { withCredentials: true }
+   )
   //  console.log(res.data)
   //   alert('Your loan request was approved!');
   //   setBalance(res.data.userInfo.balance)
   //   setUserInfo(res.data.userInfo)
-  // }
+  }
   
   return (
     <UserContext.Provider value={{
@@ -156,7 +156,7 @@ export const UserProvider = ({children}) => {
       deleteAccount,
       register,
       transfer,
-      // requestLoan
+      requestLoan
     }}>
       {children}
     </UserContext.Provider>

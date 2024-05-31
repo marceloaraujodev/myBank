@@ -1,27 +1,27 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
 
 export default function Loans() {
   const [amount, setAmount] = useState('');
-  const {  setBalance } = useContext(UserContext)
+  const { requestLoan } = useContext(UserContext)
 
 
-  function requestLoan(){
-    setAmount(amount)
-    setBalance(Number(balance) + Number(amount))
-    updateBalance()
-    alert('Your loan request was approved!');
-    setAmount('');
-  }
+  // function requestLoan(){
+  //   setAmount(amount)
+  //   setBalance(Number(balance) + Number(amount))
+  //   updateBalance()
+  //   alert('Your loan request was approved!');
+  //   setAmount('');
+  // }
 
-  async function updateBalance(){
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
-    { loanAmount: amount},
-    { withCredentials: true }
-    )
-    setBalance(res.data.userInfo.balance)
-    setUserInfo(res.data.userInfo)
-  }
+  // async function updateBalance(){
+  //   const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/loans',
+  //   { loanAmount: amount},
+  //   { withCredentials: true }
+  //   )
+  //   setBalance(res.data.userInfo.balance)
+  //   setUserInfo(res.data.userInfo)
+  // }
 
   return (
     <div className="operation operation--loan">
@@ -33,9 +33,8 @@ export default function Loans() {
           value={amount} type="number" className="form__input form__input--loan-amount" />
       <button onClick={(e) => { 
             e.preventDefault()
-            requestLoan()
-            // requestLoan(amount);
-            setAmount('');
+            requestLoan(amount);
+            
           }} className="form__btn form__btn--loan">&rarr;</button>
       <label className="form__label form__label--loan">Amount</label>
     </form>
