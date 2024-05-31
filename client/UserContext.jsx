@@ -83,9 +83,9 @@ export const UserProvider = ({children}) => {
     await axios.delete('https://mybank-x2pk.onrender.com/api/v1/delete', 
     {withCredentials: true}
    );
+   clearCookiesLocalStorage();
    setIsAuthorized(false);
    alert('Your account has be successfully deleted. Thank you for you bussiness')
-   clearCookiesLocalStorage();
   }
 
   async function register(userName, email, password) {
