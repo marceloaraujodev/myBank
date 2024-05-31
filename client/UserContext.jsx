@@ -69,13 +69,13 @@ export const UserProvider = ({children}) => {
 
   // user logout
   async function logout(){
-    clearCookiesLocalStorage()
     const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/logout', 
     { withCredentials: true }
-    );
-    // console.log('this is res logout', res)
-    setCustomerName(null);
-    setIsAuthorized(false);
+  );
+  // console.log('this is res logout', res)
+  setCustomerName(null);
+  setIsAuthorized(false);
+  clearCookiesLocalStorage()
   }
 
   async function deleteAccount(){
