@@ -150,36 +150,38 @@ export async function checkAuth(req, res){
 export async function loans(req, res){
   const { loanAmount } = req.body;
   const { token } = req.cookies
+  console.log({token})
+  console.log({loanAmount})
+  // try {
 
-  try {
-    
-    if(!token){
-      res.status(400).json({success: false, message: 'Unauthorized. Please login'})
-    }
+  //   if(!token){
+  //     res.status(400).json({success: false, message: 'Unauthorized. Please login'})
+  //   }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   
-    const loanTransaction = {
-      day: new Date(),
-      transactionType: 'deposit',
-      amount: +loanAmount * 100
-    };
+  //   const loanTransaction = {
+  //     day: new Date(),
+  //     transactionType: 'deposit',
+  //     amount: +loanAmount * 100
+  //   };
   
-   const newBalance = +loanAmount * 100;
-  //  const maxLoan = newBalance * 10
+  //  const newBalance = +loanAmount * 100;
+  // //  const maxLoan = newBalance * 10
   
-    // $inc increments the amount passed to the balance
-    const user = await User.findByIdAndUpdate(decoded.id, {
-      $inc: { balance: newBalance},
-      $push: { transactions: loanTransaction }
-      }, {new: true});
+  //   // $inc increments the amount passed to the balance
+  //   const user = await User.findByIdAndUpdate(decoded.id, {
+  //     $inc: { balance: newBalance},
+  //     $push: { transactions: loanTransaction }
+  //     }, {new: true});
   
-    console.log(user)
-    res.status(200).json({success: true, userInfo: user})
+  //   console.log(user)
+  //   res.status(200).json({success: true, userInfo: user})
     
-  } catch (error) {
-    res.status(500).json({success: false, message: 'Internal server error.'})
-  }
+  // } catch (error) {
+  //   res.status(500).json({success: false, message: 'Internal server error.'})
+  // }
+  res.json('ok')
 }
 
 export async function transfer(req, res){
