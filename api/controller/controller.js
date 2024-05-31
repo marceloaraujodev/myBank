@@ -152,7 +152,7 @@ export async function loans(req, res){
   const { token } = req.cookies
   console.log(token);
   console.log(loanAmount)
-  // const newBalance = +loanAmount * 100;
+
   try {
 
     if(!token){
@@ -176,7 +176,7 @@ export async function loans(req, res){
       $push: { transactions: loanTransaction }
       }, {new: true});
   
-    console.log(user)
+    // console.log(user)
     res.status(200).json({success: true, userInfo: user})
     
   } catch (error) {

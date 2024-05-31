@@ -107,6 +107,23 @@ export const UserProvider = ({children}) => {
       navigate('/register')
     }
   }
+
+
+  async function requestLoan(amount) {
+
+    const res = await axios.post('http://localhost:4000/api/v1/loans', {
+      loanAmount: amount
+    },
+    {withCredentials: true});
+
+   console.log(res.data)
+    setBalance(Number(balance) + Number(amount))
+    alert('Your loan request was approved!');
+    setBalance(res.data.userInfo.balance)
+    setUserInfo(res.data.userInfo)
+  }
+
+  
   
   return (
     <UserContext.Provider value={{
@@ -126,7 +143,8 @@ export const UserProvider = ({children}) => {
       toggle,
       setToggle,
       deleteAccount,
-      register
+      register,
+      requestLoan
     }}>
       {children}
     </UserContext.Provider>
