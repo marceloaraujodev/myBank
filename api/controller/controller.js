@@ -263,8 +263,14 @@ export async function deleteUser(req, res){
     const {token} = req.cookies;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     await User.deleteOne({_id: decoded.id})
-    res.status(201).json({success: true, message: 'User deleted successfully'})
-    
+    res.cookie('token', null, {
+      expires: new Date(0),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/' 
+    })
+    res.status(201).json({success: true, message: 'User deleted successfully'})  
   } catch (error) {
     console.log(error, 'Internal server error')
   }
