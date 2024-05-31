@@ -111,16 +111,17 @@ export const UserProvider = ({children}) => {
   }
 
   async function transfer(transferTo, amount) {
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
-      {email: transferTo, transferAmount: amount},
-      {withCredentials: true}
-    )
+    // const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
+    //   {email: transferTo, transferAmount: amount},
+    //   {withCredentials: true}
+    // )
+    console.log(transferTo, amount)
     console.log(res.data)
-    setBalance(res.data.userInfo.balance)
-    setUserInfo(res.data.userInfo)
-    alert('Your transfer was Successfull')
-    console.log(balance)
-    console.log(userInfo)
+    // setBalance(res.data.userInfo.balance)
+    // setUserInfo(res.data.userInfo)
+    // alert('Your transfer was Successfull')
+    // console.log(balance)
+    // console.log(userInfo)
   }
   
   return (
