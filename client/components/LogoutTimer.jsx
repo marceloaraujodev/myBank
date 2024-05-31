@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import UserContext from '../UserContext';
+import clearCookiesLocalStorage from "../utils/clearCookiesLocalStorage";
 
 export default function LogoutTimer() {
   const {logout} = useContext(UserContext);
@@ -20,8 +21,9 @@ export default function LogoutTimer() {
         // console.log(prevTime)
         // console.log(prevTime -1)
         if(prevTime <= 1){
-          localStorage.removeItem('logout-timer');
-          logout()
+          // localStorage.removeItem('logout-timer');
+          logout();
+          clearCookiesLocalStorage();
         }
         return prevTime - 1;
       });
