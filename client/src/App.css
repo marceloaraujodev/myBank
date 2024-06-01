@@ -97,8 +97,12 @@ nav {
   flex-direction: column;
   padding: 30px;
   gap: 20px;
+  min-width: 270px;
 }
-
+.spinner{
+  display: flex;
+  justify-content: center;
+}
 /* MAIN */
 .app {
   position: relative;

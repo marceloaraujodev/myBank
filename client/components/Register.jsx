@@ -1,18 +1,18 @@
 import { useState, useContext } from 'react';
 import Nav from './Nav';
 import AuthContext from '../UserContext';
+import Spinner from './Spinner';
 
 export default function Register() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { isAuthorized, register } =
-    useContext(AuthContext);
-
-
-  
-
+  const { 
+    isAuthorized, 
+    register,
+    isLoadingRegister,  
+  } = useContext(AuthContext);
 
   return (
     <>
@@ -20,6 +20,12 @@ export default function Register() {
 
       {!isAuthorized && (
         <div className="center">
+
+        {isLoadingRegister ? (
+          <form className="login register">
+              <Spinner />
+              </form>
+        ) : (
           <form className="login register">
             <input
               onChange={(e) => {
@@ -58,7 +64,10 @@ export default function Register() {
               className="login__btn">
               &rarr;
             </button>
+            {/* <Spinner /> */}
           </form>
+        )}
+         
         </div>
       )}
     </>

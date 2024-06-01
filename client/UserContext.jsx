@@ -12,18 +12,25 @@ export const UserProvider = ({children}) => {
   const [balance, setBalance] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
   const [interest, setInterest] = useState(null);
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(true);
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
 
   const navigate = useNavigate();
 
+  const development = false;
   // 'http://localhost:4000/api/v1/logout' // development
   // https://mybank-x2pk.onrender.com
+  const url = 'https://mybank-x2pk.onrender.com'
+  const devUrl = 'http://localhost:4000'
+  // console.log(url)
 
   useEffect(() => {
 
     async function checkAuthentication() {
       try {
-        const res = await axios.get('https://mybank-x2pk.onrender.com/api/v1/checkauth', {
+        console.log(`${development ? devUrl : url}`)
+        const res = await axios.get(`${development ? devUrl : url}/api/v1/checkauth`, {
           withCredentials: true
         });
 
@@ -31,10 +38,9 @@ export const UserProvider = ({children}) => {
           setIsAuthorized(true)
           setCustomerName(res.data.userInfo.name)
           setBalance(res.data.userInfo.balance)
-          setUserInfo(res.data.userInfo)
-
+          setUserInfo(res.data.userInfo);
         }else{
-          setIsAuthorized(false)
+          setIsAuthorized(false);
         } 
       } catch (error) {
         console.log(error, 'controlled error')
@@ -45,8 +51,9 @@ export const UserProvider = ({children}) => {
  
   // users login
   async function login(userEmail, password) {
+    setIsLoading(true);
     try {
-      const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/login', 
+      const res = await axios.post(`${development ? devUrl : url}/api/v1/login`, 
         { userEmail, password },
         { withCredentials: true }
       );
@@ -59,16 +66,18 @@ export const UserProvider = ({children}) => {
         setCustomerId(res.data.user._id)
         // console.log(res.data.user)
         navigate('/');
+        setIsLoading(false);
       } 
     } catch (error) {
       console.log(error.response.data.message)
       alert(error.response.data.message)
+      setIsLoading(false);
     }
   }
 
   // user logout
   async function logout(){
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/logout', 
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/logout`, 
     {},
     { withCredentials: true }
    );
@@ -80,7 +89,7 @@ export const UserProvider = ({children}) => {
 
   async function deleteAccount(){
     alert("Are you sure you want to delete your account? This is permanent and cannot be undone.")
-    await axios.delete('https://mybank-x2pk.onrender.com/api/v1/delete', 
+    await axios.delete(`${development ? devUrl : url}/api/v1/delete`, 
     {withCredentials: true}
    );
    clearCookiesLocalStorage();
@@ -89,8 +98,8 @@ export const UserProvider = ({children}) => {
   }
 
   async function register(userName, email, password) {
-
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/register', {
+    setIsLoadingRegister(true);
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/register`, {
       userName,
       email,
       password,
@@ -101,19 +110,21 @@ export const UserProvider = ({children}) => {
       setUserInfo(res.data.user)
       setIsAuthorized(true);
       navigate('/');
-      setCustomerName(userName)
+      setCustomerName(userName);
+      setIsLoadingRegister(false);
     }
     if(res.data.success === false){
       alert(res.data.message)
       setIsAuthorized(false);
-      navigate('/register')
+      navigate('/register');
+      setIsLoadingRegister(false);
     }
   }
 
   async function requestLoan(amount) {
 
     const res = await axios.post(
-      'https://mybank-x2pk.onrender.com/api/v1/loans',
+      `${development ? devUrl : url}/api/v1/loans`,
       { loanAmount: amount },
       { withCredentials: true }
     );
@@ -125,7 +136,7 @@ export const UserProvider = ({children}) => {
   }
 
   async function transfer(transferTo, amount) {
-    const res = await axios.post('https://mybank-x2pk.onrender.com/api/v1/transfer', 
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/transfer`, 
       {email: transferTo, transferAmount: amount},
       {withCredentials: true}
     )
@@ -154,7 +165,10 @@ export const UserProvider = ({children}) => {
       deleteAccount,
       register,
       requestLoan,
-      transfer
+      transfer,
+      isLoadingLogin, 
+      setIsLoadingLogin,
+      isLoadingRegister,
     }}>
       {children}
     </UserContext.Provider>

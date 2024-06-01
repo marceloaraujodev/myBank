@@ -1,16 +1,19 @@
 import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
+import Spinner from './Spinner';
 
 export default function LoginCell() {
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const {
     isAuthorized,
     customerName,
     login,
     logout,
+    isLoading, 
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -54,39 +57,44 @@ export default function LoginCell() {
               </a>
             </p>
             
+            {isLoading ? (
+              <form className="login">
+              <Spinner />
+              </form>
+            ) : (
+              <form className="login">
+                <input
+                  onChange={(e) => {
+                    setUserEmail(e.target.value);
+                  }}
+                  value={userEmail}
+                  type="text"
+                  placeholder="email"
+                  className="login__input login__input--user small"
+                />
 
-            <form className="login">
-              <input
-                onChange={(e) => {
-                  setUserEmail(e.target.value);
-                }}
-                value={userEmail}
-                type="text"
-                placeholder="email"
-                className="login__input login__input--user small"
-              />
-
-              <input
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                value={password}
-                type="password"
-                placeholder="PIN"
-                maxLength="4"
-                className="login__input login__input--pin small"
-              />
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  login(userEmail, password);
-                  setUserEmail('');
-                  setPassword('');
-                }}
-                className="login__btn small">
-                &rarr;
-              </button>
-            </form>
+                <input
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                  type="password"
+                  placeholder="PIN"
+                  maxLength="4"
+                  className="login__input login__input--pin small"
+                />
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    login(userEmail, password);
+                    setUserEmail('');
+                    setPassword('');
+                  }}
+                  className="login__btn small">
+                  &rarr;
+                </button>
+              </form>
+            )}
             </div>
         </div>
           </>

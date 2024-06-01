@@ -2,19 +2,16 @@
 import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
+import Spinner from './Spinner';
 
 export default function Nav() {
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {
-    isAuthorized,
-    customerName,
-    login,
-    logout,
-  } = useContext(UserContext);
+
+  const { isAuthorized, customerName, login, logout, isLoadingLogin } =
+    useContext(UserContext);
 
   const navigate = useNavigate();
-
 
   return (
     <>
@@ -25,50 +22,62 @@ export default function Nav() {
               <a
                 onClick={() => {
                   navigate('/');
-                }}>
+                }}
+              >
                 Login
               </a>{' '}
               or{' '}
               <a
                 onClick={() => {
                   navigate('/register');
-                }}>
+                }}
+              >
                 Register
               </a>
             </p>
             <img src="logo.png" alt="Logo" className="logo" />
-            <form className="login">
-              <input
-                onChange={(e) => {
-                  setUserEmail(e.target.value);
-                }}
-                value={userEmail}
-                type="text"
-                placeholder="email"
-                className="login__input login__input--user"
-              />
+            {isLoadingLogin ? (
+              <form className="login">
+                <Spinner />
+              </form>
+            ) : (
+              <form className="login">
+                <input
+                  disabled={isLoadingLogin ? true : false}
+                  onChange={(e) => {
+                    setUserEmail(e.target.value);
+                  }}
+                  value={userEmail}
+                  type="text"
+                  placeholder="email"
+                  className="login__input login__input--user"
+                />
 
-              <input
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                value={password}
-                type="password"
-                placeholder="PIN"
-                maxLength="4"
-                className="login__input login__input--pin"
-              />
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  login(userEmail, password);
-                  setUserEmail('');
-                  setPassword('');
-                }}
-                className="login__btn">
-                &rarr;
-              </button>
-            </form>
+                <input
+                  disabled={isLoadingLogin ? true : false}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                  type="password"
+                  placeholder="PIN"
+                  maxLength="4"
+                  className="login__input login__input--pin"
+                />
+                <button
+                  disabled={isLoadingLogin ? true : false}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    login(userEmail, password);
+                    setUserEmail('');
+                    setPassword('');
+                  }}
+                  className="login__btn"
+                >
+                  &rarr;
+                </button>
+              </form>
+            )}
           </>
         )}
 
@@ -84,7 +93,8 @@ export default function Nav() {
                 e.preventDefault();
                 logout();
               }}
-              className="login__btn">
+              className="login__btn"
+            >
               Logout &rarr;
             </button>
           </>
