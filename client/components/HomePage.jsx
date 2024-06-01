@@ -9,6 +9,7 @@ import CloseAccount from './CloseAccount';
 import LogoutTimer from './LogoutTimer';
 // import AuthContext from '../UserContext';
 import UserContext from '../UserContext';
+import LoginCell from './LoginCell';
 
 export default function HomePage() {
   // const { isAuthorized } = useContext(AuthContext);
@@ -28,6 +29,7 @@ export default function HomePage() {
   return (
     <>
       <Nav />
+      <LoginCell />
       {isAuthorized && (
         <main className={`app ${fadeIn ? 'fade-in' : ''}`}>
           <Balance />
