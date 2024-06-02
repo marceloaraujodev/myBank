@@ -18,7 +18,7 @@ export const UserProvider = ({children}) => {
 
   const navigate = useNavigate();
 
-  const development = true;
+  const development = false;
   // 'http://localhost:4000/api/v1/logout' // development
   // https://mybank-x2pk.onrender.com
   const url = 'https://mybank-x2pk.onrender.com'
