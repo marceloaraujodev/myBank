@@ -18,7 +18,7 @@ export const UserProvider = ({children}) => {
 
   const navigate = useNavigate();
 
-  const development = false;
+  const development = true;
   // 'http://localhost:4000/api/v1/logout' // development
   // https://mybank-x2pk.onrender.com
   const url = 'https://mybank-x2pk.onrender.com'
@@ -51,7 +51,7 @@ export const UserProvider = ({children}) => {
  
   // users login
   async function login(userEmail, password) {
-    setIsLoading(true);
+    setIsLoadingLogin(true);
     try {
       const res = await axios.post(`${development ? devUrl : url}/api/v1/login`, 
         { userEmail, password },
@@ -66,12 +66,12 @@ export const UserProvider = ({children}) => {
         setCustomerId(res.data.user._id)
         // console.log(res.data.user)
         navigate('/');
-        setIsLoading(false);
-      } 
+        setIsLoadingLogin(false);
+      }else{
+        setIsLoadingLogin(false);
+      }
     } catch (error) {
-      console.log(error.response.data.message)
-      alert(error.response.data.message)
-      setIsLoading(false);
+      console.log(error)
     }
   }
 
