@@ -13,7 +13,7 @@ export default function LoginCell() {
     customerName,
     login,
     logout,
-    isLoading, 
+    isLoadingLogin, 
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -57,9 +57,11 @@ export default function LoginCell() {
               </a>
             </p>
             
-            {isLoading ? (
+            {isLoadingLogin ? (
               <form className="login">
-              <Spinner />
+              <div className='isLoadingLoginContainer'>
+                <Spinner />
+              </div>
               </form>
             ) : (
               <form className="login">
@@ -100,22 +102,7 @@ export default function LoginCell() {
           </>
         )}
 
-        {/* {isAuthorized && (
-          <>
-            <p className="welcome">
-              Welcome{' '}
-              {customerName?.charAt(0).toUpperCase() + customerName?.slice(1)}
-            </p>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                logout();
-              }}
-              className="login__btn small">
-              Logout &rarr;
-            </button>
-          </>
-        )} */}
+
     {isAuthorized && (
           <>
             <p className="welcome">

@@ -433,4 +433,10 @@ p a{
   .operation{
     max-width: 90%;
   }
+  nav form .spinner{
+    display: none;
+  }
+  .isLoadingLoginContainer{
+    margin: 0 auto;
+  }
 }
