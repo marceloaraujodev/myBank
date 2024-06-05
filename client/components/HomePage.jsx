@@ -10,10 +10,11 @@ import LogoutTimer from './LogoutTimer';
 // import AuthContext from '../UserContext';
 import UserContext from '../UserContext';
 import LoginCell from './LoginCell';
+import Modal from './Modal';
 
 export default function HomePage() {
   // const { isAuthorized } = useContext(AuthContext);
-  const {isAuthorized} = useContext(UserContext)
+  const {isAuthorized, isOpen, setIsOpen, isLoan, isTransfer} = useContext(UserContext)
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,21 @@ export default function HomePage() {
     <>
       <Nav />
       <LoginCell />
+
       {isAuthorized && (
+        <>
+        {isOpen && isLoan && (
+              <Modal message='Your loan request was approved!'>
+                <button onClick={() => setIsOpen(!isOpen)} className='modal-btn'>Close</button>
+              </Modal>
+
+            )}
+        {isOpen && isTransfer && (
+              <Modal message='Your transfer was successful!'>
+                <button onClick={() => setIsOpen(!isOpen)} className='modal-btn'>Close</button>
+              </Modal>
+
+            )}
         <main className={`app ${fadeIn ? 'fade-in' : ''}`}>
           <Balance />
           <Movements />
@@ -40,6 +55,7 @@ export default function HomePage() {
           <CloseAccount />
           <LogoutTimer />
         </main>
+        </>
       )}
     </>
   );

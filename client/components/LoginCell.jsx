@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
+import Modal from './Modal';
 
 export default function LoginCell() {
   const [userEmail, setUserEmail] = useState('');
@@ -14,6 +15,7 @@ export default function LoginCell() {
     login,
     logout,
     isLoadingLogin, 
+    isOpen,
   } = useContext(UserContext);
 
   const navigate = useNavigate();

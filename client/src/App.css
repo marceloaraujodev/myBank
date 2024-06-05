@@ -82,7 +82,6 @@ nav {
   width: 20rem;
 }
 
-
 .center {
   display: flex;
   justify-content: center;
@@ -324,6 +323,51 @@ h2 {
 }
 p a{
   cursor: pointer;
+}
+
+.modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  min-width: 250px;
+  position: fixed;
+  top: 50%;
+  border: 1px solid gray;
+  padding: 20px 45px;
+  border-radius: 5px;
+}
+.modal-content-container p{
+  margin-bottom: 15px;
+  font-size: 1.4rem
+}
+.modal-btn-container{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.modal-btn{
+  border: 1px solid rgb(224, 224, 224);
+  padding: 10px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  /* box-shadow: 0 0 1px rgba(0, 0, 0, 0.2); */
+  outline: none;
+}
+.modal-btn-container button:hover{
+  transform: scale(1.1);
+  transition: .5s ease;
+}
+.modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 @media screen and (max-width: 768px){

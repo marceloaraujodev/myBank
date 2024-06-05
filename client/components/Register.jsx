@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import Nav from './Nav';
-import AuthContext from '../UserContext';
+import UserContext from '../UserContext';
 import Spinner from './Spinner';
 
 export default function Register() {
@@ -12,7 +12,7 @@ export default function Register() {
     isAuthorized, 
     register,
     isLoadingRegister,  
-  } = useContext(AuthContext);
+  } = useContext(UserContext);
 
   return (
     <>

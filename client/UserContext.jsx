@@ -15,6 +15,11 @@ export const UserProvider = ({children}) => {
   const [toggle, setToggle] = useState(true);
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [isLoadingRegister, setIsLoadingRegister] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoan, setIsLoan] = useState(false);
+  const [isTransfer, setIsTransfer] = useState(false);
+
+
 
   const navigate = useNavigate();
 
@@ -121,6 +126,7 @@ export const UserProvider = ({children}) => {
     }
   }
 
+  //
   async function requestLoan(amount) {
 
     const res = await axios.post(
@@ -130,9 +136,10 @@ export const UserProvider = ({children}) => {
     );
 
     setBalance(Number(balance) + Number(amount))
-    alert('Your loan request was approved!');
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
+    setIsOpen(true);
+    setIsLoan(true);
   }
 
   async function transfer(transferTo, amount) {
@@ -142,7 +149,8 @@ export const UserProvider = ({children}) => {
     )
     setBalance(res.data.userInfo.balance)
     setUserInfo(res.data.userInfo)
-    alert('Your transfer was Successfull')
+    setIsOpen(true)
+    setIsTransfer(true);
   }
   
   return (
@@ -169,6 +177,12 @@ export const UserProvider = ({children}) => {
       isLoadingLogin, 
       setIsLoadingLogin,
       isLoadingRegister,
+      isOpen, 
+      setIsOpen,
+      isLoan,
+      isTransfer,
+      setIsLoan,
+      setIsTransfer
     }}>
       {children}
     </UserContext.Provider>
