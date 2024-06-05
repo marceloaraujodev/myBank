@@ -23,7 +23,7 @@ export default function Loans() {
       <button onClick={(e) => { 
             e.preventDefault()
             requestLoan(amount);
-            // setAmount('');
+            setAmount('');
           }} className="form__btn form__btn--loan">&rarr;</button>
       <label className="form__label form__label--loan">Amount</label>
     </form>
