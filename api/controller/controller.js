@@ -5,6 +5,10 @@ import mongoose from 'mongoose';
 import emailValidator from 'email-validator';
 import emailSend from '../utils/emailSend.js';
 
+// changes for production
+// forgotPassword set to ${req.get('host')}
+
+
 
 // Need to adjust login to hashed password
 export async function login (req, res) {
@@ -280,23 +284,27 @@ export async function deleteUser(req, res){
 
 export async function forgotPassword(req, res){
   try {
-    const {userEmail} = req.body;
+    console.log(req.body)
+    const {email} = req.body;
+    // console.log(userEmail)
+    console.log(req.body)
 
-    const user = await User.findOne({email: userEmail});
-    // console.log(user);
+    const user = await User.findOne({email});
+    console.log(user);
 
     if(!user){
       return res.status(404).json({success: false, message: 'Email not found.'})
     }
 
-    const forgotToken = user.getPasswordToken();
+    const forgotToken = user.getPasswordToken(); // ignore warning
 
     /* sometimes your model will invalidate because of the model
            data structure, however here we are just saving the token and not changing the main data fields */
     await user.save({ validateBeforeSave: false });
 
     // create url for the forgot endpoint
-    const myUrl = `${req.protocol}://${req.get('host')}/reset/${forgotToken}`;
+    const myUrl = `${req.protocol}://localhost:5173/resetpassword/${forgotToken}`; // development
+    // const myUrl = `${req.protocol}://${req.get('host')}/resetpassword/${forgotToken}`; // pro
 
     // create email to the user 
 
@@ -325,4 +333,9 @@ export async function forgotPassword(req, res){
     console.log(error.message)
     return res.status(500).json({success: false, message: 'Internal server error'})
   }
+}
+
+export async function resetPassword(req, res){
+  console.log(req.body)
+  res.json('ok')
 }

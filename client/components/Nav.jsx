@@ -35,7 +35,7 @@ export default function Nav() {
                 Register
               </a>
             </p>
-            <img src="logo.png" alt="Logo" className="logo" />
+            <img src="/logo.png" alt="Logo" className="logo" />
             {isLoadingLogin ? (
               <form className="login">
                 <Spinner />
@@ -96,7 +96,7 @@ export default function Nav() {
               Welcome{' '}
               {customerName?.charAt(0).toUpperCase() + customerName?.slice(1)}
             </p>
-            <img src="logo.png" alt="Logo" className="logo" />
+            <img src="/logo.png" alt="Logo" className="logo" />
             <button
               onClick={(e) => {
                 e.preventDefault();

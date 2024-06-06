@@ -1,17 +1,29 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../UserContext';
 import Spinner from './Spinner';
 import Nav from './Nav';
+import Modal from './Modal';
 
 
-export default function forgotPassword() {
+export default function handleForgotPassword() {
   const [userEmail, setUserEmail] = useState('');
 
-  const { resetPassword, isLoadingLogin } =
+  const { forgotPassword, isLoadingLogin, isOpen, setIsOpen } =
     useContext(UserContext);
+
+    const navigate = useNavigate();
 
   return (
     <>     
+        {isOpen && (
+              <Modal message='Please check your email'>
+                <button onClick={() => {
+                  setIsOpen(false)
+                  navigate('/')
+                }} className='modal-btn'>Close</button>
+              </Modal>
+            )}
         <Nav />
           <div className="center">
             <div className="container-small">
@@ -44,7 +56,8 @@ export default function forgotPassword() {
                     <button
                 onClick={(e) => {
                   e.preventDefault();
-                  resetPassword(userEmail);
+                  setIsOpen(true);
+                  forgotPassword(userEmail);
                   setUserEmail('');
                 }}
                 className="login__btn small"
@@ -56,7 +69,6 @@ export default function forgotPassword() {
 
             </div>
           </div>
-
 
     </>
   );

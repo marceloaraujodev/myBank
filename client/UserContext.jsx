@@ -23,7 +23,7 @@ export const UserProvider = ({children}) => {
 
   const navigate = useNavigate();
 
-  const development = false;
+  const development = true;
   // 'http://localhost:4000/api/v1/logout' // development
   // https://mybank-x2pk.onrender.com
   const url = 'https://mybank-x2pk.onrender.com'
@@ -34,7 +34,7 @@ export const UserProvider = ({children}) => {
 
     async function checkAuthentication() {
       try {
-        console.log(`${development ? devUrl : url}`)
+        // console.log(`${development ? devUrl : url}`)
         const res = await axios.get(`${development ? devUrl : url}/api/v1/checkauth`, {
           withCredentials: true
         });
@@ -152,10 +152,26 @@ export const UserProvider = ({children}) => {
     setIsTransfer(true);
   }
 
-  async function resetPassword(email){
-    const res = await axios.post(`${development ? devUrl : url}/api/v1/transfer`, {email}
+  async function forgotPassword(email){
+    try {
+      console.log(email)
+      const res = await axios.post(`${development ? devUrl : url}/api/v1/forgotpassword`, {email}
+      )
+      console.log(res.data)
+      // // see what I will do after I have sent the user email to the backend
+  
+      // // check is response was successful, if so send user to passwordReset
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function resetPassword(password, confirmPassword, token){
+    console.log(password, confirmPassword, token)
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/resetpassword/:token`, {password, confirmPassword, token}
     )
-    // see what I will do after I have sent the user email to the backend
+    console.log(res.data);
   }
   
   return (
@@ -188,7 +204,8 @@ export const UserProvider = ({children}) => {
       isTransfer,
       setIsLoan,
       setIsTransfer,
-      resetPassword
+      resetPassword,
+      forgotPassword
     }}>
       {children}
     </UserContext.Provider>

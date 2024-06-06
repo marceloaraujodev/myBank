@@ -24,9 +24,12 @@ export default function Modal({message, children}) {
   }, [isOpen])
 
   function handleClick(){
-    setIsOpen(!isOpen)
-    setIsTransfer(!isLoan)
-    setIsLoan(!isTransfer)
+    // setIsOpen(!isOpen)
+    // setIsTransfer(!isLoan)
+    // setIsLoan(!isTransfer)
+    setIsOpen(false)
+    setIsTransfer(false)
+    setIsLoan(false);
   }
 
 

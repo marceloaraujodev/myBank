@@ -40,6 +40,7 @@ nav {
 .form-outer-container{
   display: flex;
   justify-content: space-between;
+  gap: 5px;
 }
 .form-container-small{
   display: flex;
@@ -47,6 +48,12 @@ nav {
 .input-container-small{
   display: flex;
   /* border: 2px solid red; */
+}
+.gap{
+  gap: 10px;
+}
+.mb{
+  margin-bottom: 10px;
 }
 .forgot-small{
   margin-top: 10px;
@@ -57,8 +64,17 @@ nav {
   font-size: 1.9rem;
   font-weight: 500;
   margin-bottom: 20px;
-}
 
+  text-align: center;
+}
+.reset-password-title{
+  text-align: center;
+}
+.new-pass{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
 .logo {
   height: 5.25rem;
 }
@@ -124,6 +140,10 @@ nav {
 }
 .container-small{
   transform: translateX(-52.5px);
+  text-align: center;
+}
+.reset-pass{
+  margin-right: 0;
 }
 .register{
   transform: translateX(-25%);
@@ -133,6 +153,10 @@ nav {
   gap: 20px;
   min-width: 270px;
   /* border: 1px solid red; */
+}
+.register-btn{
+  margin: 0 auto;
+  transform: translateX(-50%);
 }
 .spinner{
   display: flex;
@@ -407,9 +431,6 @@ p a{
 }
 
 @media screen and (max-width: 768px){
-  body{
-    padding: 5px;
-  }
   .container-small{
     /* display: flex; */
     text-align: center;
@@ -466,6 +487,12 @@ p a{
   } */
   .register{
     transform: translateX(0);
+  }
+  .register-btn{
+    display: block;
+  }
+  .visible{
+    display: block;
   }
   .app{  
     display: flex;
@@ -539,6 +566,12 @@ p a{
     display: none;
   }
   .isLoadingLoginContainer{
+    margin: 0 auto;
+  }
+  .reset-pass{
+    display: flex;
+  }
+  .reset-pass-btn{
     margin: 0 auto;
   }
 }

@@ -20,13 +20,24 @@ export default function Register() {
 
       {!isAuthorized && (
         <div className="center">
-
+        
         {isLoadingRegister ? (
           <form className="login register">
               <Spinner />
               </form>
         ) : (
+          <>
+
           <form className="login register">
+          <p className="welcome small">
+                <a
+                  onClick={() => {
+                    navigate('/register');
+                  }}
+                >
+                  Register
+                </a>
+              </p>
             <input
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -56,16 +67,19 @@ export default function Register() {
               maxLength="4"
               className="login__input login__input--pin registration"
             />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                register(userName, email, password)
-              }}
-              className="login__btn">
-              &rarr;
-            </button>
-            {/* <Spinner /> */}
+            <div className='register-btn'>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  register(userName, email, password)
+                }}
+                className="login__btn visible">
+                &rarr;
+              </button>
+            </div>
           </form>
+        
+          </>
         )}
          
         </div>

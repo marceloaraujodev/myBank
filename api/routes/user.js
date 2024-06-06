@@ -7,7 +7,8 @@ import {
   loans,
   transfer,
   deleteUser,
-  forgotPassword
+  forgotPassword,
+  resetPassword
 } from '../controller/controller.js'
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.route('/delete').delete(deleteUser);
 
 
 router.route('/forgotpassword').post(forgotPassword);
+router.route('/resetpassword/:token').post(resetPassword)
 
 
 export default router;
