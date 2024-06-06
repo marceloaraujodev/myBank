@@ -9,118 +9,122 @@ export default function LoginCell() {
   const [password, setPassword] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const {
-    isAuthorized,
-    customerName,
-    login,
-    logout,
-    isLoadingLogin, 
-    isOpen,
-  } = useContext(UserContext);
+  const { isAuthorized, customerName, login, logout, isLoadingLogin, isOpen } =
+    useContext(UserContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleSmallScreens = () => {
-      setWindowWidth(window.innerWidth)
+      setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener('resize', handleSmallScreens);
 
     // clean up
     return () => {
-      window.removeEventListener('resize', handleSmallScreens)
-    }
-  }, [])
+      window.removeEventListener('resize', handleSmallScreens);
+    };
+  }, []);
 
-  if(windowWidth >= 768){
-    return null
+  if (windowWidth >= 768) {
+    return null;
   }
 
   return (
     <>
-       {!isAuthorized && (
-          <>
-    <div className='center'>
-          <div className='container-small'>
-            <p className="welcome small">
-              <a
-                onClick={() => {
-                  navigate('/');
-                }}>
-                Login
-              </a>{' '}
-              or{' '}
-              <a
-                onClick={() => {
-                  navigate('/register');
-                }}>
-                Register
-              </a>
-            </p>
-            
-            {isLoadingLogin ? (
-              <form className="login">
-              <div className='isLoadingLoginContainer'>
-                <Spinner />
-              </div>
-              </form>
-            ) : (
-              <form className="login">
-                <input
-                  onChange={(e) => {
-                    setUserEmail(e.target.value);
+      {!isAuthorized && (
+        <>
+          <div className="center">
+            <div className="container-small">
+              <p className="welcome small">
+                <a
+                  onClick={() => {
+                    navigate('/');
                   }}
-                  value={userEmail}
-                  type="text"
-                  placeholder="email"
-                  className="login__input login__input--user small"
-                />
+                >
+                  Login
+                </a>{' '}
+                or{' '}
+                <a
+                  onClick={() => {
+                    navigate('/register');
+                  }}
+                >
+                  Register
+                </a>
+              </p>
 
-                <input
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  value={password}
-                  type="password"
-                  placeholder="PIN"
-                  maxLength="4"
-                  className="login__input login__input--pin small"
-                />
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    login(userEmail, password);
-                    setUserEmail('');
-                    setPassword('');
-                  }}
-                  className="login__btn small">
-                  &rarr;
-                </button>
-              </form>
-            )}
+              {isLoadingLogin ? (
+                <form className="login">
+                  <div className="isLoadingLoginContainer">
+                    <Spinner />
+                  </div>
+                </form>
+              ) : (
+                <div className="form-outer-container">
+                  <form className="login login-small">
+                    <div className="input-container-small">
+                      <input
+                        onChange={(e) => {
+                          setUserEmail(e.target.value);
+                        }}
+                        value={userEmail}
+                        type="text"
+                        placeholder="email"
+                        className="login__input login__input--user small"
+                      />
+
+                      <input
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                        value={password}
+                        type="password"
+                        placeholder="PIN"
+                        maxLength="4"
+                        className="login__input login__input--pin small"
+                      />
+                    </div>
+                    <div className="forgot-small">Forgot Password</div>
+                  </form>
+
+                    <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  login(userEmail, password);
+                  setUserEmail('');
+                  setPassword('');
+                }}
+                className="login__btn small"
+              >
+                &rarr;
+              </button>
+                </div>
+              )}
+
             </div>
-        </div>
-          </>
-        )}
+          </div>
+        </>
+      )}
 
-
-    {isAuthorized && (
-          <>
-            <p className="welcome">
-              Welcome{' '}
-              {customerName?.charAt(0).toUpperCase() + customerName?.slice(1)}
-            </p>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                logout();
-              }}
-              className="login__btn small logout">
-              Logout &rarr;
-            </button>
-          </>
-        )}
+      {isAuthorized && (
+        <>
+          <p className="welcome">
+            Welcome{' '}
+            {customerName?.charAt(0).toUpperCase() + customerName?.slice(1)}
+          </p>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
+            className="login__btn small logout"
+          >
+            Logout &rarr;
+          </button>
+        </>
+      )}
     </>
-  )
+  );
 }

@@ -15,7 +15,8 @@ body {
   color: #444;
   background-color: #f3f3f3;
   height: 100vh;
-  padding: 2rem;
+  /* padding: 2rem; */
+  margin: 2rem;
 }
 
 nav {
@@ -24,19 +25,47 @@ nav {
   align-items: center;
   padding: 0 2rem;
 }
+.form-container{
+  display: flex;
 
+}
+.forgot-password{
+  text-align: center;
+  margin-top: 10px;
+}
+.forgot-password a{
+  cursor: pointer;
+}
+/* ------------------------- */
+.form-outer-container{
+  display: flex;
+  justify-content: space-between;
+}
+.form-container-small{
+  display: flex;
+}
+.input-container-small{
+  display: flex;
+  /* border: 2px solid red; */
+}
+.forgot-small{
+  margin-top: 10px;
+  cursor: pointer;
+}
+/* ------------------------ */
 .welcome {
   font-size: 1.9rem;
   font-weight: 500;
+  margin-bottom: 20px;
 }
 
 .logo {
   height: 5.25rem;
 }
 
-.login {
-  display: flex;
-}
+/* .login {
+
+} */
 
 .login__input {
   border: none;
@@ -68,6 +97,7 @@ nav {
   color: inherit;
   cursor: pointer;
   transition: all 0.3s;
+  max-height: 35.6px;
 }
 
 .login__btn:hover,
@@ -78,6 +108,7 @@ nav {
   color: #777;
 }
 
+
 .registration{
   width: 20rem;
 }
@@ -86,9 +117,13 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   height: calc(100vh - 73px);
-  padding:0 20px;
+  /* transform: translateX(-52.5px); */
+  /* padding:0 20px; */
+}
+.container-small{
+  transform: translateX(-52.5px);
 }
 .register{
   transform: translateX(-25%);
@@ -97,6 +132,7 @@ nav {
   padding: 30px;
   gap: 20px;
   min-width: 270px;
+  /* border: 1px solid red; */
 }
 .spinner{
   display: flex;
@@ -377,6 +413,7 @@ p a{
   .container-small{
     /* display: flex; */
     text-align: center;
+    transform: translateX(0);
   }
   .welcome{
     display: none;
@@ -384,6 +421,24 @@ p a{
   }
   .welcome.small{
     display: block;
+  }
+  .forgot-password a{
+    display: none;
+  }
+  .form-outer-container{
+    display: flex;
+    justify-content: space-between;
+  }
+  .form-container-small{
+    display: flex;
+  }
+  .input-container-small{
+    display: flex;
+    /* border: 2px solid red; */
+  }
+  .forgot-small{
+    margin-top: 10px;
+    cursor: pointer;
   }
   .login__input{
     display: none;
@@ -406,6 +461,9 @@ p a{
   .registration{
     display: block;
   }
+  /* .center {
+    transform: translateX(0);
+  } */
   .register{
     transform: translateX(0);
   }

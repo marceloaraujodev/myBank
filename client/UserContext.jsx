@@ -126,7 +126,6 @@ export const UserProvider = ({children}) => {
     }
   }
 
-  //
   async function requestLoan(amount) {
 
     const res = await axios.post(
@@ -151,6 +150,12 @@ export const UserProvider = ({children}) => {
     setUserInfo(res.data.userInfo)
     setIsOpen(true)
     setIsTransfer(true);
+  }
+
+  async function resetPassword(email){
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/transfer`, {email}
+    )
+    // see what I will do after I have sent the user email to the backend
   }
   
   return (
@@ -182,7 +187,8 @@ export const UserProvider = ({children}) => {
       isLoan,
       isTransfer,
       setIsLoan,
-      setIsTransfer
+      setIsTransfer,
+      resetPassword
     }}>
       {children}
     </UserContext.Provider>

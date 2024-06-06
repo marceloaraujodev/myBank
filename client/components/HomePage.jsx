@@ -11,6 +11,7 @@ import LogoutTimer from './LogoutTimer';
 import UserContext from '../UserContext';
 import LoginCell from './LoginCell';
 import Modal from './Modal';
+import ForgotPassword from './ForgotPassword';
 
 export default function HomePage() {
   // const { isAuthorized } = useContext(AuthContext);
@@ -30,6 +31,7 @@ export default function HomePage() {
   return (
     <>
       <Nav />
+
       <LoginCell />
 
       {isAuthorized && (

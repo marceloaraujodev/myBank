@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useContext, useEffect } from 'react';
 import UserContext from '../UserContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 
 export default function Nav() {
@@ -41,29 +41,38 @@ export default function Nav() {
                 <Spinner />
               </form>
             ) : (
-              <form className="login">
-                <input
-                  disabled={isLoadingLogin ? true : false}
-                  onChange={(e) => {
-                    setUserEmail(e.target.value);
-                  }}
-                  value={userEmail}
-                  type="text"
-                  placeholder="email"
-                  className="login__input login__input--user"
-                />
+              <div className="form-container">
+                <form className="login">
+                  <div>
+                    <input
+                      disabled={isLoadingLogin ? true : false}
+                      onChange={(e) => {
+                        setUserEmail(e.target.value);
+                      }}
+                      value={userEmail}
+                      type="text"
+                      placeholder="email"
+                      className="login__input login__input--user"
+                    />
 
-                <input
-                  disabled={isLoadingLogin ? true : false}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  value={password}
-                  type="password"
-                  placeholder="PIN"
-                  maxLength="4"
-                  className="login__input login__input--pin"
-                />
+                    <input
+                      disabled={isLoadingLogin ? true : false}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      value={password}
+                      type="password"
+                      placeholder="PIN"
+                      maxLength="4"
+                      className="login__input login__input--pin"
+                    />
+                  </div>
+                  <div className="forgot-password">
+                    <a onClick={() => {
+                  navigate('/forgotpassword');
+                }}>Forgot Password</a>
+                  </div>
+                </form>
                 <button
                   disabled={isLoadingLogin ? true : false}
                   onClick={(e) => {
@@ -76,7 +85,7 @@ export default function Nav() {
                 >
                   &rarr;
                 </button>
-              </form>
+              </div>
             )}
           </>
         )}

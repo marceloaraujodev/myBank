@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import emailValidator from 'email-validator';
+import emailSend from '../utils/emailSend.js';
+
 
 // Need to adjust login to hashed password
 export async function login (req, res) {
@@ -273,5 +275,54 @@ export async function deleteUser(req, res){
     res.status(201).json({success: true, message: 'User deleted successfully'})  
   } catch (error) {
     console.log(error, 'Internal server error')
+  }
+}
+
+export async function forgotPassword(req, res){
+  try {
+    const {userEmail} = req.body;
+
+    const user = await User.findOne({email: userEmail});
+    // console.log(user);
+
+    if(!user){
+      return res.status(404).json({success: false, message: 'Email not found.'})
+    }
+
+    const forgotToken = user.getPasswordToken();
+
+    /* sometimes your model will invalidate because of the model
+           data structure, however here we are just saving the token and not changing the main data fields */
+    await user.save({ validateBeforeSave: false });
+
+    // create url for the forgot endpoint
+    const myUrl = `${req.protocol}://${req.get('host')}/reset/${forgotToken}`;
+
+    // create email to the user 
+
+    const message = `Copy and paste this link in your url \n\n ${myUrl}`;
+
+    // send email to user.
+    try {
+      await emailSend({
+        email: user.email,
+        subject: "Password Reset",
+        message
+      })
+
+    } catch (error) {
+      // in case of errors clear the fields below.
+      console.log(error.message)
+      user.forgotPasswordToken = undefined
+      user.forgotPasswordExpires = undefined
+      await user.save({ validateBeforeSave: false });
+
+      return res.status(500).json({success: false, message: 'Internal server error'})
+    }
+
+    return res.status(200).json({success: true, message: 'Email sent successfully'})
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({success: false, message: 'Internal server error'})
   }
 }

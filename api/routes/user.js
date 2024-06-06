@@ -6,7 +6,8 @@ import {
   checkAuth,
   loans,
   transfer,
-  deleteUser
+  deleteUser,
+  forgotPassword
 } from '../controller/controller.js'
 
 const router = express.Router();
@@ -17,8 +18,11 @@ router.route('/logout').post(logout);
 router.route('/register').post(register);
 router.route('/checkauth').get(checkAuth);
 router.route('/loans').post(loans);
-router.route('/transfer').post(transfer)
-router.route('/delete').delete(deleteUser)
+router.route('/transfer').post(transfer);
+router.route('/delete').delete(deleteUser);
 
 
-export default router
+router.route('/forgotpassword').post(forgotPassword);
+
+
+export default router;
