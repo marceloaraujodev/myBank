@@ -8,6 +8,7 @@ import Modal from './Modal';
 
 export default function handleForgotPassword() {
   const [userEmail, setUserEmail] = useState('');
+  const [isLoadingForgot, setIsLoadingForgot] = useState(false);
 
   const { forgotPassword, isLoadingLogin, isOpen, setIsOpen } =
     useContext(UserContext);
@@ -31,7 +32,7 @@ export default function handleForgotPassword() {
                 Fogort Password
               </p>
 
-              {isLoadingLogin ? (
+              {(isLoadingLogin && isLoadingForgot) ? (
                 <form className="login">
                   <div className="isLoadingLoginContainer">
                     <Spinner />

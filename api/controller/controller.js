@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import emailValidator from 'email-validator';
 import emailSend from '../utils/emailSend.js';
+import crypto from 'crypto';
 
 // changes for production
 // forgotPassword set to ${req.get('host')}
@@ -26,7 +27,7 @@ export async function login (req, res) {
 
     if(!isAuthorized){
       // console.log('do not give token')
-     return res.status(401).json({
+     return res.json({
         success: false,
         message: 'Invalid Credentials'
       })
@@ -47,7 +48,7 @@ export async function login (req, res) {
         sameSite: 'none',
         path: '/' 
       })
-      res.status(200).json({user, token});
+      res.status(200).json({user, token, success: true, message: 'login successful'});
     }
 
   } catch (error) {
@@ -284,10 +285,10 @@ export async function deleteUser(req, res){
 
 export async function forgotPassword(req, res){
   try {
-    console.log(req.body)
-    const {email} = req.body;
-    // console.log(userEmail)
-    console.log(req.body)
+    console.log('req.body', req.body)
+    const { email} = req.body;
+    console.log('this is email', email)
+    // console.log(req.body)
 
     const user = await User.findOne({email});
     console.log(user);
@@ -297,6 +298,8 @@ export async function forgotPassword(req, res){
     }
 
     const forgotToken = user.getPasswordToken(); // ignore warning
+
+    console.log('this is the token', forgotToken)
 
     /* sometimes your model will invalidate because of the model
            data structure, however here we are just saving the token and not changing the main data fields */
@@ -337,5 +340,24 @@ export async function forgotPassword(req, res){
 
 export async function resetPassword(req, res){
   console.log(req.body)
-  res.json('ok')
+  
+  const {password, token} = req.body;
+  console.log(password, token)
+
+  const encrytedToken = crypto.createHash('sha256').update(token).digest('hex');
+  console.log(encrytedToken)
+
+  const user = await User.findOne({forgotPasswordToken: encrytedToken})
+
+  const trimPass = password.trim();
+
+  const hashedPass = await bcrypt.hash(trimPass, 10)
+
+  user.password = hashedPass;
+  user.forgotPasswordToken = undefined;
+  user.forgotPasswordExpires = undefined;
+  await user.save();
+
+  console.log(user);
+  res.status(200).json({success: true, message:'password saved successfuly'})
 }

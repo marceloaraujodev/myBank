@@ -27,7 +27,7 @@ export default function ResetPassword() {
     }else{
       setCheckPass(false);
       setIsOpen(true);
-      resetPassword(password, confirmPassword, token);
+      resetPassword(password, token);
     }
   }
 

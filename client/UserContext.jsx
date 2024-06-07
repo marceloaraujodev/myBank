@@ -46,9 +46,11 @@ export const UserProvider = ({children}) => {
           setUserInfo(res.data.userInfo);
         }else{
           setIsAuthorized(false);
+          setIsLoadingLogin(false);
         } 
       } catch (error) {
         console.log(error, 'controlled error')
+        
       }
     }
     checkAuthentication();
@@ -62,8 +64,8 @@ export const UserProvider = ({children}) => {
         { userEmail, password },
         { withCredentials: true }
       );
-
-      if(res.data){
+      console.log(res.data)
+      if(res.data.success){
         setUserInfo(res.data.user)
         setIsAuthorized(true);
         setCustomerName(res.data.user.name);
@@ -77,6 +79,7 @@ export const UserProvider = ({children}) => {
       }
     } catch (error) {
       console.log(error)
+      // setIsLoadingLogin(false); // if response from server is using 401 turn on 
     }
   }
 
@@ -167,9 +170,9 @@ export const UserProvider = ({children}) => {
     }
   }
 
-  async function resetPassword(password, confirmPassword, token){
-    console.log(password, confirmPassword, token)
-    const res = await axios.post(`${development ? devUrl : url}/api/v1/resetpassword/:token`, {password, confirmPassword, token}
+  async function resetPassword(password, token){
+    console.log(password, token)
+    const res = await axios.post(`${development ? devUrl : url}/api/v1/resetpassword/:token`, {password, token}
     )
     console.log(res.data);
   }
