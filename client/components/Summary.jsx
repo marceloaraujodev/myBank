@@ -28,6 +28,9 @@ export default function Summary() {
   setWithdrawal(formatMoney(totalWithdrawals))
   setInterest(calcInterstRate(userInfo).toFixed(2))
 
+  // console.log(interest)
+  // console.log(userInfo)
+
   // const lastTransactionDay = userInfo.transactions[userInfo.transactions.length -1].day;
   // const lastTransactionDate = new Date(lastTransactionDay).toLocaleString('en-US');
   // console.log('last Transaction Date:', lastTransactionDate)
