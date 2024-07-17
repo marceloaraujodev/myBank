@@ -306,8 +306,9 @@ export async function forgotPassword(req, res){
     await user.save({ validateBeforeSave: false });
 
     // create url for the forgot endpoint
-    const myUrl = `${req.protocol}://localhost:5173/resetpassword/${forgotToken}`; // development
-    // const myUrl = `${req.protocol}://${req.get('host')}/resetpassword/${forgotToken}`; // pro
+    // const myUrl = `${req.protocol}://localhost:5173/resetpassword/${forgotToken}`; // development
+    const myUrl = `${req.protocol}://${req.get('host')}/resetpassword/${forgotToken}`; // pro
+    console.log(myUrl)
 
     // create email to the user 
 
